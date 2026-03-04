@@ -36,4 +36,13 @@ namespace ConsoleApp129
             return 'T';
         }
     }
+    internal class HealthPoint : MapObject
+    {
+        public int index = 10;
+        public override char Rendering_on_the_map()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            return '❤';
+        }
+    }
 }

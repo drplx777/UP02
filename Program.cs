@@ -13,6 +13,7 @@ namespace ConsoleApp129
             int a = 0;
             while (a == 0)
             {
+                Console.SetCursorPosition(0,26);
                 switch (Console.ReadKey().Key)
                 {
                     case ConsoleKey.UpArrow:

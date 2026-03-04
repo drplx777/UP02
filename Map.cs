@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 namespace ConsoleApp129
 {
@@ -29,9 +31,13 @@ namespace ConsoleApp129
                     {
                         map[i, j] = new Enemy(i, j);
                     }
-                    if (A > 5 && A < 10)
+                    if (A > 5 && A < 20)
                     {
                         map[i, j] = new Tree();
+                    }
+                    if (A > 5 && A < 10)
+                    {
+                        map[i,j] = new HealthPoint();
                     }
                     if (i == map.GetLength(0) / 2 && j == map.GetLength(1) / 2)
                     {
@@ -53,6 +59,21 @@ namespace ConsoleApp129
                 }
                 Console.WriteLine();
             }
+            Hero hero = FindHero();
+            if (hero != null)
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"HP героя: {hero.HP}");
+                Console.ResetColor();
+            }
+        }
+        private Hero FindHero()
+        {
+            for (int i = 0; i < map.GetLength(0); i++)
+                for (int j = 0; j < map.GetLength(1); j++)
+                    if (map[i, j] is Hero h) return h;
+            return null;
         }
         
         public void MovePersons()
@@ -143,6 +164,25 @@ namespace ConsoleApp129
                             newMap[newX, newY] = map[i, j];
                             newMap[i, j] = new Field();
                         }
+                        if (newMap[newX, newY] is HealthPoint)
+                        {
+                            newMap[newX, newY] = map[i, j];
+                            ((Hero)newMap[newX, newY]).HP += 10;
+                            newMap[i, j] = new Field();
+                        }
+                        if (newMap[newX, newY] is Enemy)
+                        {
+                            newMap[newX, newY] = map[i, j];
+                            ((Hero)map[i, j]).HP -= 10;
+                            if (((Hero)map[i, j]).HP <= 0)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("You Died!");
+                                Environment.Exit(0);
+                            }
+                            newMap[i, j] = new Field();
+                        }
+
                     }
                 }
             }

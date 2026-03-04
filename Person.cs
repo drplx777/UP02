@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleApp129;
 
 namespace ConsoleApp129
 {
@@ -23,8 +25,10 @@ namespace ConsoleApp129
 
     internal class Hero : Person
     {
+        public int HP { get; set; }
         public Hero(int X, int Y) : base(X, Y)
         {
+            HP = 100;
 
         }
         public override char Rendering_on_the_map()

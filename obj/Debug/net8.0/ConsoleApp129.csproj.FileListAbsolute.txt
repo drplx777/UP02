@@ -13,3 +13,4 @@
 /Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ConsoleApp129.pdb
 /Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ConsoleApp129.genruntimeconfig.cache
 /Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ref/ConsoleApp129.dll
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ConsoleApp129.sourcelink.json
