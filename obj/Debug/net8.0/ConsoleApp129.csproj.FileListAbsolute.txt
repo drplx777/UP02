@@ -1,0 +1,15 @@
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ConsoleApp129.GeneratedMSBuildEditorConfig.editorconfig
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ConsoleApp129.AssemblyInfoInputs.cache
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ConsoleApp129.AssemblyInfo.cs
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ConsoleApp129.csproj.CoreCompileInputs.cache
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/bin/Debug/net8.0/ConsoleApp129
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/bin/Debug/net8.0/ConsoleApp129.dll.config
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/bin/Debug/net8.0/ConsoleApp129.deps.json
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/bin/Debug/net8.0/ConsoleApp129.runtimeconfig.json
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/bin/Debug/net8.0/ConsoleApp129.dll
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/bin/Debug/net8.0/ConsoleApp129.pdb
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ConsoleApp129.dll
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/refint/ConsoleApp129.dll
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ConsoleApp129.pdb
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ConsoleApp129.genruntimeconfig.cache
+/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/Debug/net8.0/ref/ConsoleApp129.dll
