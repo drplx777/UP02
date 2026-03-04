@@ -1,4 +1,5 @@
 ﻿using System;
+using ConsoleApp129.Save;
 namespace ConsoleApp129
 {
     internal class Program
@@ -39,6 +40,25 @@ namespace ConsoleApp129
                         map.MovePersons(ConsoleKey.RightArrow);
                         map.MovePersons();
                         map.Drawing_the_map();
+                        break;
+                    case ConsoleKey.S:
+                        var saveData = map.GetGameData();
+                        SaveManager.Save(saveData);
+                        Console.WriteLine("Игра сохранена!");
+                        break;
+                    case ConsoleKey.L:
+                        var loadData = SaveManager.Load();
+                            if (loadData != null)
+                            {
+                                map.LoadGame(loadData);
+                                Console.Clear();
+                                map.Drawing_the_map();
+                                Console.WriteLine("Игра загружена!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Сохранение не найдено.");
+                            }
                         break;
                     case ConsoleKey.Escape:
                         a++;

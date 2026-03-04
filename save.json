@@ -1,0 +1,554 @@
+{
+  "Width": 25,
+  "Height": 25,
+  "HeroX": 3,
+  "HeroY": 5,
+  "HeroHP": 70,
+  "Items": [
+    {
+      "Type": "Tree",
+      "X": 0,
+      "Y": 13
+    },
+    {
+      "Type": "Tree",
+      "X": 0,
+      "Y": 15
+    },
+    {
+      "Type": "Tree",
+      "X": 0,
+      "Y": 18
+    },
+    {
+      "Type": "Wall",
+      "X": 0,
+      "Y": 19
+    },
+    {
+      "Type": "Tree",
+      "X": 0,
+      "Y": 23
+    },
+    {
+      "Type": "Tree",
+      "X": 1,
+      "Y": 4
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 1,
+      "Y": 9
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 1,
+      "Y": 13
+    },
+    {
+      "Type": "Tree",
+      "X": 1,
+      "Y": 16
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 1,
+      "Y": 17
+    },
+    {
+      "Type": "Tree",
+      "X": 1,
+      "Y": 19
+    },
+    {
+      "Type": "Tree",
+      "X": 1,
+      "Y": 24
+    },
+    {
+      "Type": "Tree",
+      "X": 2,
+      "Y": 1
+    },
+    {
+      "Type": "Tree",
+      "X": 2,
+      "Y": 7
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 2,
+      "Y": 14
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 3,
+      "Y": 8
+    },
+    {
+      "Type": "Tree",
+      "X": 3,
+      "Y": 12
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 3,
+      "Y": 13
+    },
+    {
+      "Type": "Tree",
+      "X": 3,
+      "Y": 19
+    },
+    {
+      "Type": "Wall",
+      "X": 3,
+      "Y": 21
+    },
+    {
+      "Type": "Wall",
+      "X": 4,
+      "Y": 1
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 4,
+      "Y": 2
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 4,
+      "Y": 9
+    },
+    {
+      "Type": "Tree",
+      "X": 4,
+      "Y": 11
+    },
+    {
+      "Type": "Tree",
+      "X": 4,
+      "Y": 12
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 4,
+      "Y": 13
+    },
+    {
+      "Type": "Tree",
+      "X": 4,
+      "Y": 17
+    },
+    {
+      "Type": "Tree",
+      "X": 5,
+      "Y": 5
+    },
+    {
+      "Type": "Tree",
+      "X": 5,
+      "Y": 7
+    },
+    {
+      "Type": "Tree",
+      "X": 5,
+      "Y": 15
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 5,
+      "Y": 16
+    },
+    {
+      "Type": "Tree",
+      "X": 6,
+      "Y": 4
+    },
+    {
+      "Type": "Wall",
+      "X": 6,
+      "Y": 5
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 6,
+      "Y": 7
+    },
+    {
+      "Type": "Tree",
+      "X": 6,
+      "Y": 17
+    },
+    {
+      "Type": "Wall",
+      "X": 6,
+      "Y": 23
+    },
+    {
+      "Type": "Wall",
+      "X": 7,
+      "Y": 1
+    },
+    {
+      "Type": "Wall",
+      "X": 7,
+      "Y": 2
+    },
+    {
+      "Type": "Tree",
+      "X": 7,
+      "Y": 9
+    },
+    {
+      "Type": "Wall",
+      "X": 7,
+      "Y": 23
+    },
+    {
+      "Type": "Tree",
+      "X": 8,
+      "Y": 5
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 8,
+      "Y": 11
+    },
+    {
+      "Type": "Tree",
+      "X": 8,
+      "Y": 14
+    },
+    {
+      "Type": "Tree",
+      "X": 8,
+      "Y": 18
+    },
+    {
+      "Type": "Wall",
+      "X": 8,
+      "Y": 23
+    },
+    {
+      "Type": "Tree",
+      "X": 9,
+      "Y": 2
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 9,
+      "Y": 4
+    },
+    {
+      "Type": "Tree",
+      "X": 9,
+      "Y": 8
+    },
+    {
+      "Type": "Tree",
+      "X": 9,
+      "Y": 9
+    },
+    {
+      "Type": "Tree",
+      "X": 9,
+      "Y": 15
+    },
+    {
+      "Type": "Tree",
+      "X": 9,
+      "Y": 22
+    },
+    {
+      "Type": "Casino",
+      "X": 10,
+      "Y": 10
+    },
+    {
+      "Type": "Tree",
+      "X": 10,
+      "Y": 13
+    },
+    {
+      "Type": "Tree",
+      "X": 10,
+      "Y": 23
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 11,
+      "Y": 1
+    },
+    {
+      "Type": "Tree",
+      "X": 11,
+      "Y": 16
+    },
+    {
+      "Type": "Tree",
+      "X": 11,
+      "Y": 19
+    },
+    {
+      "Type": "Tree",
+      "X": 12,
+      "Y": 0
+    },
+    {
+      "Type": "Tree",
+      "X": 12,
+      "Y": 2
+    },
+    {
+      "Type": "Tree",
+      "X": 12,
+      "Y": 3
+    },
+    {
+      "Type": "Tree",
+      "X": 12,
+      "Y": 4
+    },
+    {
+      "Type": "Wall",
+      "X": 12,
+      "Y": 18
+    },
+    {
+      "Type": "Wall",
+      "X": 12,
+      "Y": 21
+    },
+    {
+      "Type": "Tree",
+      "X": 13,
+      "Y": 1
+    },
+    {
+      "Type": "Wall",
+      "X": 13,
+      "Y": 4
+    },
+    {
+      "Type": "Wall",
+      "X": 13,
+      "Y": 12
+    },
+    {
+      "Type": "Tree",
+      "X": 13,
+      "Y": 20
+    },
+    {
+      "Type": "Wall",
+      "X": 13,
+      "Y": 24
+    },
+    {
+      "Type": "Tree",
+      "X": 14,
+      "Y": 19
+    },
+    {
+      "Type": "Tree",
+      "X": 15,
+      "Y": 3
+    },
+    {
+      "Type": "Tree",
+      "X": 15,
+      "Y": 5
+    },
+    {
+      "Type": "Tree",
+      "X": 15,
+      "Y": 6
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 16,
+      "Y": 4
+    },
+    {
+      "Type": "Wall",
+      "X": 16,
+      "Y": 9
+    },
+    {
+      "Type": "Tree",
+      "X": 16,
+      "Y": 11
+    },
+    {
+      "Type": "Wall",
+      "X": 16,
+      "Y": 12
+    },
+    {
+      "Type": "Tree",
+      "X": 16,
+      "Y": 17
+    },
+    {
+      "Type": "Tree",
+      "X": 17,
+      "Y": 7
+    },
+    {
+      "Type": "Tree",
+      "X": 17,
+      "Y": 14
+    },
+    {
+      "Type": "Wall",
+      "X": 17,
+      "Y": 19
+    },
+    {
+      "Type": "Tree",
+      "X": 17,
+      "Y": 23
+    },
+    {
+      "Type": "Tree",
+      "X": 18,
+      "Y": 1
+    },
+    {
+      "Type": "Tree",
+      "X": 18,
+      "Y": 10
+    },
+    {
+      "Type": "Tree",
+      "X": 18,
+      "Y": 17
+    },
+    {
+      "Type": "Wall",
+      "X": 18,
+      "Y": 20
+    },
+    {
+      "Type": "Tree",
+      "X": 18,
+      "Y": 23
+    },
+    {
+      "Type": "Tree",
+      "X": 19,
+      "Y": 3
+    },
+    {
+      "Type": "Wall",
+      "X": 19,
+      "Y": 13
+    },
+    {
+      "Type": "Tree",
+      "X": 19,
+      "Y": 19
+    },
+    {
+      "Type": "Tree",
+      "X": 19,
+      "Y": 23
+    },
+    {
+      "Type": "Tree",
+      "X": 19,
+      "Y": 24
+    },
+    {
+      "Type": "Wall",
+      "X": 20,
+      "Y": 16
+    },
+    {
+      "Type": "Tree",
+      "X": 20,
+      "Y": 18
+    },
+    {
+      "Type": "Wall",
+      "X": 20,
+      "Y": 20
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 21,
+      "Y": 0
+    },
+    {
+      "Type": "Tree",
+      "X": 21,
+      "Y": 2
+    },
+    {
+      "Type": "Tree",
+      "X": 21,
+      "Y": 6
+    },
+    {
+      "Type": "Wall",
+      "X": 21,
+      "Y": 11
+    },
+    {
+      "Type": "Tree",
+      "X": 21,
+      "Y": 14
+    },
+    {
+      "Type": "Tree",
+      "X": 21,
+      "Y": 21
+    },
+    {
+      "Type": "Tree",
+      "X": 21,
+      "Y": 23
+    },
+    {
+      "Type": "Wall",
+      "X": 21,
+      "Y": 24
+    },
+    {
+      "Type": "Wall",
+      "X": 22,
+      "Y": 16
+    },
+    {
+      "Type": "Wall",
+      "X": 23,
+      "Y": 3
+    },
+    {
+      "Type": "Tree",
+      "X": 23,
+      "Y": 5
+    },
+    {
+      "Type": "Tree",
+      "X": 23,
+      "Y": 10
+    },
+    {
+      "Type": "Wall",
+      "X": 23,
+      "Y": 12
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 23,
+      "Y": 13
+    },
+    {
+      "Type": "Tree",
+      "X": 24,
+      "Y": 8
+    }
+  ]
+}

@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-
+using ConsoleApp129.Save;
 namespace ConsoleApp129
 {
     internal class Map
@@ -198,6 +198,72 @@ namespace ConsoleApp129
 
             
             Array.Copy(newMap, map, map.Length);
+        }
+        public void LoadGame(GameData data)
+        {
+            map = new MapObject[data.Width, data.Height];
+
+            for (int i = 0; i < data.Width; i++)
+                for (int j = 0; j < data.Height; j++)
+                    map[i, j] = new Field();
+
+            foreach (var item in data.Items)
+            {
+                switch (item.Type)
+                {
+                    case nameof(Wall):
+                        map[item.X, item.Y] = new Wall();
+                        break;
+                    case nameof(Tree):
+                        map[item.X, item.Y] = new Tree();
+                        break;
+                    case nameof(HealthPoint):
+                        map[item.X, item.Y] = new HealthPoint();
+                        break;
+                    case nameof(Casino):
+                        map[item.X, item.Y] = new Casino();
+                        break;
+                    case nameof(Enemy):
+                        map[item.X, item.Y] = new Enemy(item.X, item.Y);
+                        break;
+                }
+            }
+            map[data.HeroX, data.HeroY] =
+                new Hero(data.HeroX, data.HeroY)
+                {
+                    HP = data.HeroHP
+                };
+        }
+        public GameData GetGameData(){
+            GameData data = new GameData
+            {
+                Width = map.GetLength(0),
+                Height = map.GetLength(1)
+            };
+
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    if (map[i, j] is Hero h)
+                    {
+                        data.HeroX = i;
+                        data.HeroY = j;
+                        data.HeroHP = h.HP;
+                    }
+                    else if (map[i, j] is not Field)
+                    {
+                        data.Items.Add(new MapItem
+                        {
+                            Type = map[i, j].GetType().Name,
+                            X = i,
+                            Y = j
+                        });
+                    }
+                }
+            }
+
+            return data;
         }
     }
 }
