@@ -45,4 +45,35 @@ namespace ConsoleApp129
             return '❤';
         }
     }
+    internal class Casino : MapObject
+    {
+        public override char Rendering_on_the_map()
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            return '♤';
+        }
+        public void Interaction()
+        {
+            Console.WriteLine("Вы в казино! \n 1. Играть \n Escape. Выйти");
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.D1:
+                    Console.Clear();
+                    Random rand = new Random();
+                    int a = rand.Next(100);
+                    if (a < 50)
+                    {
+                        Console.WriteLine("Вы проиграли!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Вы выиграли!");
+                    }
+                    break;
+                case ConsoleKey.Escape:
+                    Console.Clear();
+                    break;
+            }
+        }
+    }
 }

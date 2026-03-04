@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
@@ -39,6 +40,10 @@ namespace ConsoleApp129
                     {
                         map[i,j] = new HealthPoint();
                     }
+                    if (i == 10 && j == 10)
+                    {
+                        map[i, j] = new Casino();
+                    }
                     if (i == map.GetLength(0) / 2 && j == map.GetLength(1) / 2)
                     {
                         map[i, j] = new Hero(i, j);
@@ -68,7 +73,7 @@ namespace ConsoleApp129
                 Console.ResetColor();
             }
         }
-        private Hero FindHero()
+        public Hero FindHero()
         {
             for (int i = 0; i < map.GetLength(0); i++)
                 for (int j = 0; j < map.GetLength(1); j++)
@@ -181,6 +186,10 @@ namespace ConsoleApp129
                                 Environment.Exit(0);
                             }
                             newMap[i, j] = new Field();
+                        }
+                        if (newMap[newX, newY] is Casino)
+                        {
+                            ((Casino)newMap[newX, newY]).Interaction();
                         }
 
                     }
