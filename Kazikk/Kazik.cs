@@ -19,6 +19,7 @@ namespace ConsoleApp129.Kazikk
                 BlackJack();
                 break;
                 case ConsoleKey.D2:
+                Roulette();
                 break;
                 case ConsoleKey.D3:
                 break;
@@ -86,6 +87,56 @@ namespace ConsoleApp129.Kazikk
                     break;
                 }
             }
+            Console.Clear();
+        }
+        public void Roulette()
+        {
+            char[]pics = new char[]{'❤', '♕', '✦', '➆'};
+            int index = 0;
+            Random rnd = new Random();
+            char[]result = new char[3];
+            Console.WriteLine("Добро Пожаловать в игру");
+            Console.WriteLine("Для начала игры нажмите любую клавишу");
+            Console.ReadKey();
+            while (true)
+            {
+                for(int i = 0; i < 10; i++)
+                {
+                    index = rnd.Next(0,3);
+                    result[0] = pics[index];
+                    index = rnd.Next(0,3);
+                    result[1] = pics[index];
+                    index = rnd.Next(0,3);
+                    result[2] = pics[index];
+                    for(int j = 0; j < result.Length-1; j++)
+                    {
+                        Thread.Sleep(100);
+                        Console.Write(result[j]);
+                    }
+                    Console.Clear();
+                    
+                }
+                for(int i = 0; i < result.Length; i++)
+                {
+                    Console.Write(result[i]);
+                }
+                if (result[0] == result[1] && result[1] == result[2])
+                {
+                    Console.WriteLine("Вы выйграли! \nНажмите на любую клавишу, чтобы попробовать еще раз \n Escape для выхода");
+
+                }
+                else if(result[0] != result[1])
+                {
+                    Console.WriteLine("Вы проиграли \nНажмите на любую клавишу, чтобы попробовать еще раз \nEscape для выхода");
+                }
+                if(Console.ReadKey().Key == ConsoleKey.Escape)
+                {
+                    break;
+                }
+                Console.Clear();
+                
+            }
+        
         }
     }
 }
