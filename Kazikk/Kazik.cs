@@ -22,6 +22,7 @@ namespace ConsoleApp129.Kazikk
                 Roulette();
                 break;
                 case ConsoleKey.D3:
+                WheelOfFortune();
                 break;
             }
         }
@@ -139,5 +140,64 @@ namespace ConsoleApp129.Kazikk
             }
         
         }
+        static void WheelOfFortune()
+        {
+            Console.WriteLine("Добро пожаловать в игру «Колесо фортуны»!");
+            Console.WriteLine("Секторы колеса: 10–100 очков (шаг 10), БАНКРОТ, ПРОПУСК ХОДА");
+            Console.WriteLine("Для выхода введите 'exit'.\n");
+
+            var wheel = new Wheel();
+            var random = new Random();
+            int totalScore = 0;
+            bool gameRunning = true;
+
+            while (gameRunning)
+            {
+                Console.WriteLine($"Текущий счёт: {totalScore}");
+                Console.Write("Нажмите '1' чтобы крутить колесо, или 'Escape' для выхода: ");
+                var input = Console.ReadKey().Key;
+
+                if (input == ConsoleKey.Escape)
+                {
+                    Console.WriteLine("Спасибо за игру! До свидания.");
+                    gameRunning = false;
+                    break;
+                }
+                else if (input == ConsoleKey.D1)
+                {
+                    var segment = wheel.Spin(random);
+                    Console.Write($"Колесо остановилось на секторе: ");
+
+                    switch (segment.Type)
+                    {
+                        case SegmentType.Points:
+                            Console.WriteLine($"{segment.Value} очков");
+                            totalScore += segment.Value;
+                            break;
+                        case SegmentType.Bankrupt:
+                            Console.WriteLine("БАНКРОТ! Все очки сгорают.");
+                            totalScore = 0;
+                            break;
+                        case SegmentType.SkipTurn:
+                            Console.WriteLine("ПРОПУСК ХОДА. Вы ничего не получаете.");
+                            break;
+                    }
+
+                    if (totalScore >= 1000)
+                    {
+                        Console.WriteLine($"\nПоздравляем! Вы набрали {totalScore} очков и победили!");
+                        gameRunning = false;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Неизвестная команда. Попробуйте 'spin' или 'exit'.");
+                }
+
+                Console.WriteLine();
+            }
+        }
+
+        
     }
 }

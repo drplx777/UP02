@@ -1,0 +1,101 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        PlayWheelOfFortune();
+    }
+    static void PlayWheelOfFortune()
+    {
+        Console.WriteLine("Добро пожаловать в игру «Колесо фортуны»!");
+        Console.WriteLine("Секторы колеса: 10–100 очков (шаг 10), БАНКРОТ, ПРОПУСК ХОДА");
+        Console.WriteLine("Для выхода введите 'exit'.\n");
+
+        var wheel = new Wheel();
+        var random = new Random();
+        int totalScore = 0;
+        bool gameRunning = true;
+
+        while (gameRunning)
+        {
+            Console.WriteLine($"Текущий счёт: {totalScore}");
+            Console.Write("Введите 'spin' чтобы крутить колесо, или 'exit' для выхода: ");
+            string input = Console.ReadLine()?.Trim().ToLower();
+
+            if (input == "exit")
+            {
+                Console.WriteLine("Спасибо за игру! До свидания.");
+                gameRunning = false;
+                break;
+            }
+            else if (input == "spin")
+            {
+                var segment = wheel.Spin(random);
+                Console.Write($"Колесо остановилось на секторе: ");
+
+                switch (segment.Type)
+                {
+                    case SegmentType.Points:
+                        Console.WriteLine($"{segment.Value} очков");
+                        totalScore += segment.Value;
+                        break;
+                    case SegmentType.Bankrupt:
+                        Console.WriteLine("БАНКРОТ! Все очки сгорают.");
+                        totalScore = 0;
+                        break;
+                    case SegmentType.SkipTurn:
+                        Console.WriteLine("ПРОПУСК ХОДА. Вы ничего не получаете.");
+                        break;
+                }
+
+                if (totalScore >= 1000)
+                {
+                    Console.WriteLine($"\nПоздравляем! Вы набрали {totalScore} очков и победили!");
+                    gameRunning = false;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Неизвестная команда. Попробуйте 'spin' или 'exit'.");
+            }
+
+            Console.WriteLine();
+        }
+    }
+}
+enum SegmentType
+{
+    Points,
+    Bankrupt,
+    SkipTurn
+}
+class WheelSegment
+{
+    public SegmentType Type { get; set; }
+    public int Value { get; set; }
+}
+class Wheel
+{
+    private readonly List<WheelSegment> _segments;
+
+    public Wheel()
+    {
+        _segments = new List<WheelSegment>();
+
+
+        for (int points = 10; points <= 100; points += 10)
+        {
+            _segments.Add(new WheelSegment { Type = SegmentType.Points, Value = points });
+        }
+
+        _segments.Add(new WheelSegment { Type = SegmentType.Bankrupt, Value = 0 });
+        _segments.Add(new WheelSegment { Type = SegmentType.SkipTurn, Value = 0 });
+    }
+    public WheelSegment Spin(Random random)
+    {
+        int index = random.Next(_segments.Count);
+        return _segments[index];
+    }
+}
