@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleApp129.Kazikk;
 
 namespace ConsoleApp129
 {
@@ -55,20 +56,15 @@ namespace ConsoleApp129
         public void Interaction()
         {
             Console.WriteLine("Вы в казино! \n 1. Играть \n Escape. Выйти");
+            Kazik kazik = new Kazik();
+
             switch (Console.ReadKey().Key)
             {
                 case ConsoleKey.D1:
                     Console.Clear();
-                    Random rand = new Random();
-                    int a = rand.Next(100);
-                    if (a < 50)
-                    {
-                        Console.WriteLine("Вы проиграли!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Вы выиграли!");
-                    }
+                    kazik.Entry();
+                    
+
                     break;
                 case ConsoleKey.Escape:
                     Console.Clear();

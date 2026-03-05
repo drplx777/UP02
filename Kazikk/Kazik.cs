@@ -1,0 +1,91 @@
+using System;
+using System.Threading;
+using System.Xml;
+using ConsoleApp129.Exceptions;
+
+namespace ConsoleApp129.Kazikk
+{
+    class Kazik
+    {
+        public Kazik()
+        {}
+        public void Entry()
+        {
+            Console.WriteLine("Добро пожаловать в казино! \n Для продолжения выберите игру:");
+            Console.WriteLine("1.BlackJack \n 2.Рулетка \n 3.Колесо фортуны");
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.D1:
+                BlackJack();
+                break;
+                case ConsoleKey.D2:
+                break;
+                case ConsoleKey.D3:
+                break;
+            }
+        }
+        public void BlackJack()
+        {
+            int Pcards = 0;
+            int Dcards = 0;
+            Console.WriteLine("Добро Пожаловать в игру");
+            Console.WriteLine("Для начала игры нажмите любую клавишу");
+            Console.ReadKey();
+            Random random = new Random();
+            while (true)
+            {
+                Console.WriteLine("Диллер раздаёт карты...");
+                Pcards = random.Next(1, 11) + random.Next(1, 11);
+                Dcards = random.Next(1, 11) + random.Next(1, 11);
+                Thread.Sleep(1000);
+                Console.WriteLine($"Ваши карты: {Pcards}");
+                Console.WriteLine($"Карты дилера: {Dcards}");
+                
+                while(Pcards <= 21)
+                {
+                    Console.WriteLine("Хотите взять еще одну карту? \n 1. Да \n 2. Нет");
+                    if (Console.ReadKey().Key == ConsoleKey.D2)
+                    {
+                        break;
+                    }
+                    switch (Console.ReadKey().Key)
+                    {
+                        case ConsoleKey.D1:
+                            Pcards += random.Next(1, 11);
+                            Console.WriteLine($"Ваши карты: {Pcards}");
+                            Console.WriteLine($"Карты дилера: {Dcards}");
+                        break;
+                        default:
+                            Console.WriteLine("Такого варианта нет");
+                        break;
+                    }
+                }
+                if (Pcards > 21)
+                {
+                    Console.WriteLine("Вы проиграли! Перебор.");
+                }
+                else if (Dcards > 21)
+                {
+                    Console.WriteLine("Вы выиграли! Дилер перебрал.");
+                }
+                if (Pcards > Dcards)
+                {
+                    Console.WriteLine("Вы выиграли!");
+                }
+                if (Pcards < Dcards)
+                {
+                    Console.WriteLine("Вы проиграли!");
+                }
+                else
+                {
+                    Console.WriteLine("Ничья!");
+                }
+                Console.WriteLine("Хотите сыграть ещё раз? \n Для продолжения нажмите любую клавишу \n Для выхода нажмите Escape");
+                if (Console.ReadKey().Key == ConsoleKey.Escape)
+                {
+                    break;
+                }
+            }
+        }
+    }
+}
