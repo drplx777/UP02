@@ -12,7 +12,7 @@ namespace ConsoleApp129.Kazikk
         public void Entry()
         {
             Console.WriteLine("Добро пожаловать в казино! \n Для продолжения выберите игру:");
-            Console.WriteLine("1.BlackJack \n 2.Рулетка \n 3.Колесо фортуны");
+            Console.WriteLine("\n1.BlackJack \n 2.Рулетка \n 3.Колесо фортуны");
             switch (Console.ReadKey().Key)
             {
                 case ConsoleKey.D1:
@@ -64,22 +64,32 @@ namespace ConsoleApp129.Kazikk
                 }
                 if (Pcards > 21)
                 {
+                    Console.WriteLine($"Ваши карты: {Pcards}");
+                    Console.WriteLine($"Карты дилера: {Dcards}");
                     Console.WriteLine("Вы проиграли! Перебор.");
                 }
                 else if (Dcards > 21)
                 {
+                    Console.WriteLine($"Ваши карты: {Pcards}");
+                    Console.WriteLine($"Карты дилера: {Dcards}");
                     Console.WriteLine("Вы выиграли! Дилер перебрал.");
                 }
-                if (Pcards > Dcards)
+                else if (Pcards > Dcards)
                 {
+                    Console.WriteLine($"Ваши карты: {Pcards}");
+                    Console.WriteLine($"Карты дилера: {Dcards}");
                     Console.WriteLine("Вы выиграли!");
                 }
-                if (Pcards < Dcards)
+                else if (Pcards < Dcards)
                 {
+                    Console.WriteLine($"Ваши карты: {Pcards}");
+                    Console.WriteLine($"Карты дилера: {Dcards}");
                     Console.WriteLine("Вы проиграли!");
                 }
                 else
                 {
+                    Console.WriteLine($"Ваши карты: {Pcards}");
+                    Console.WriteLine($"Карты дилера: {Dcards}");
                     Console.WriteLine("Ничья!");
                 }
                 Console.WriteLine("Хотите сыграть ещё раз? \n Для продолжения нажмите любую клавишу \n Для выхода нажмите Escape");
