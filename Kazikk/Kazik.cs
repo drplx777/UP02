@@ -108,9 +108,9 @@ namespace ConsoleApp129.Kazikk
                     result[1] = pics[index];
                     index = rnd.Next(0,3);
                     result[2] = pics[index];
-                    for(int j = 0; j < result.Length-1; j++)
+                    for(int j = 0; j < result.Length; j++)
                     {
-                        Thread.Sleep(100);
+                        Thread.Sleep(350);
                         Console.Write(result[j]);
                     }
                     Console.Clear();
@@ -122,10 +122,11 @@ namespace ConsoleApp129.Kazikk
                 }
                 if (result[0] == result[1] && result[1] == result[2])
                 {
+                    Console.WriteLine();
                     Console.WriteLine("Вы выйграли! \nНажмите на любую клавишу, чтобы попробовать еще раз \n Escape для выхода");
 
                 }
-                else if(result[0] != result[1])
+                else if(result[0] != result[1] || result[0] != result[2] || result[1] != result[2])
                 {
                     Console.WriteLine("Вы проиграли \nНажмите на любую клавишу, чтобы попробовать еще раз \nEscape для выхода");
                 }
