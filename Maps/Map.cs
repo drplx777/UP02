@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using ConsoleApp129.Save;
+using ConsoleApp129.Maps;
 namespace ConsoleApp129
 {
     internal class Map : Imap
@@ -79,10 +80,6 @@ namespace ConsoleApp129
                 Console.WriteLine($"Уровень мира: {MapLevel}");
                 Console.ResetColor();
             }
-            if (Enemies < 0)
-            {
-                MapLevel++;
-            }
         }
         public Hero FindHero()
         {
@@ -143,6 +140,7 @@ namespace ConsoleApp129
         
         public void MovePersons(ConsoleKey key)
         {
+            int Enemies = CountEnemies();
             
             MapObject[,] newMap = new MapObject[map.GetLength(0), map.GetLength(1)];
 
@@ -202,6 +200,7 @@ namespace ConsoleApp129
                                 newMap[newX, newY] = map[i, j];
                                 newMap[i, j] = new Field();
                             }
+                            
                         }
                         if (newMap[newX, newY] is Casino)
                         {

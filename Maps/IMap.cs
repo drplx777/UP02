@@ -1,6 +1,6 @@
 using System;
 
-namespace ConsoleApp129
+namespace ConsoleApp129.Maps
 {
     interface Imap
     {
