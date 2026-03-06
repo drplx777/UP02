@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
@@ -9,8 +10,9 @@ using System.Threading.Tasks.Dataflow;
 using ConsoleApp129.Save;
 namespace ConsoleApp129
 {
-    internal class Map
+    internal class Map : Imap
     {
+        int MapLevel = 1;
         Random rand = new Random();
         MapObject[,] map = new MapObject[25, 25];
 
@@ -40,7 +42,7 @@ namespace ConsoleApp129
                     {
                         map[i,j] = new HealthPoint();
                     }
-                    if (i == 10 && j == 10)
+                    if (i == 10 && j == 10 && MapLevel > 1)
                     {
                         map[i, j] = new Casino();
                     }
@@ -65,12 +67,21 @@ namespace ConsoleApp129
                 Console.WriteLine();
             }
             Hero hero = FindHero();
+            int Enemies = CountEnemies();
             if (hero != null)
             {
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"HP героя: {hero.HP}");
+                Console.WriteLine($"Гроши: {hero.Balance}");
+                Console.WriteLine($"Урон героя: {hero.Damage}");
+                Console.WriteLine($"Врагов на карте: {Enemies}");
+                Console.WriteLine($"Уровень мира: {MapLevel}");
                 Console.ResetColor();
+            }
+            if (Enemies < 0)
+            {
+                MapLevel++;
             }
         }
         public Hero FindHero()
@@ -143,7 +154,7 @@ namespace ConsoleApp129
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    if (map[i, j] is Hero)
+                    if (map[i, j] is Hero hero)
                     {
                         
                         int newX = i, newY = j;
@@ -175,17 +186,22 @@ namespace ConsoleApp129
                             ((Hero)newMap[newX, newY]).HP += 10;
                             newMap[i, j] = new Field();
                         }
-                        if (newMap[newX, newY] is Enemy)
+                        if (newMap[newX, newY] is Enemy enemy)
                         {
-                            newMap[newX, newY] = map[i, j];
-                            ((Hero)map[i, j]).HP -= 10;
+                            enemy.HP -= hero.Damage;
+                            hero.HP -= enemy.Damage;
+
                             if (((Hero)map[i, j]).HP <= 0)
                             {
                                 Console.Clear();
                                 Console.WriteLine("You Died!");
                                 Environment.Exit(0);
                             }
-                            newMap[i, j] = new Field();
+                            else if( enemy.HP <= 0)
+                            {
+                                newMap[newX, newY] = map[i, j];
+                                newMap[i, j] = new Field();
+                            }
                         }
                         if (newMap[newX, newY] is Casino)
                         {
@@ -264,6 +280,21 @@ namespace ConsoleApp129
             }
 
             return data;
+        }
+        public int CountEnemies()
+        {
+            int Count = 0;
+            for(int i = 0; i < map.GetLength(0); i++)
+            {
+                for(int j = 0; j < map.GetLength(1); j++)
+                {
+                    if(map[i,j] is Enemy)
+                    {
+                        Count++;
+                    }
+                }
+            }
+            return Count;
         }
     }
 }

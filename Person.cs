@@ -26,9 +26,14 @@ namespace ConsoleApp129
     internal class Hero : Person
     {
         public int HP { get; set; }
+        public int Balance { get; set; }
+
+        public int Damage {get; set; }
         public Hero(int X, int Y) : base(X, Y)
         {
             HP = 100;
+            Balance = 1000;
+            Damage = 10;
 
         }
         public override char Rendering_on_the_map()
@@ -40,8 +45,12 @@ namespace ConsoleApp129
 
     internal class Enemy : Person
     {
+        public int HP {get; set;}
+        public int Damage{get; set;}
         public Enemy(int X, int Y) : base(X, Y)
         {
+            HP = 20;
+            Damage = 10;
         }
         public override char Rendering_on_the_map()
         {
