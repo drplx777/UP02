@@ -72,4 +72,12 @@ namespace ConsoleApp129
             }
         }
     }
+    internal class Door : MapObject
+    {
+        public override char Rendering_on_the_map()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            return '█';
+        }
+    }
 }

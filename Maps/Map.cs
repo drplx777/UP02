@@ -11,9 +11,9 @@ using ConsoleApp129.Save;
 using ConsoleApp129.Maps;
 namespace ConsoleApp129
 {
-    internal class Map : Imap
+    internal class Map
     {
-        int MapLevel = 1;
+        public int MapLevel = 1;
         Random rand = new Random();
         MapObject[,] map = new MapObject[25, 25];
 
@@ -55,7 +55,8 @@ namespace ConsoleApp129
                 }
             }
         }
-       
+       //когда maplevel > 1
+       //присваеваем новый map
         public void Drawing_the_map()
         {
             for (int i = 0; i < map.GetLength(0); i++)
@@ -79,6 +80,12 @@ namespace ConsoleApp129
                 Console.WriteLine($"Врагов на карте: {Enemies}");
                 Console.WriteLine($"Уровень мира: {MapLevel}");
                 Console.ResetColor();
+            }
+            if (Enemies == 0 && MapLevel < 2)
+            {
+                MapLevel++;
+                MapLevel2 maplevel2 = new MapLevel2();
+                map = maplevel2.Map_generation();
             }
         }
         public Hero FindHero()

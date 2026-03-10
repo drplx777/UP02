@@ -4,6 +4,6 @@ namespace ConsoleApp129.Maps
 {
     interface Imap
     {
-        public void Map_generation(); 
+        public MapObject[,] Map_generation(); 
     }
 }
