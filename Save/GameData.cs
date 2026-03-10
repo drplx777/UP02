@@ -11,6 +11,8 @@ namespace ConsoleApp129.Save
         public int HeroY { get; set; }
         public int HeroHP { get; set; }
 
+        public int MapLevel { get; set; } = 1;
+
         public List<MapItem> Items { get; set; } = new();
     }
 

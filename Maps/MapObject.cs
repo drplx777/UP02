@@ -72,6 +72,14 @@ namespace ConsoleApp129
             }
         }
     }
+    internal class Shop : MapObject
+    {
+        public override char Rendering_on_the_map()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            return '$';
+        }
+    }
     internal class Door : MapObject
     {
         public override char Rendering_on_the_map()
@@ -80,4 +88,5 @@ namespace ConsoleApp129
             return '█';
         }
     }
+    
 }
