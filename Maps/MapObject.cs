@@ -62,22 +62,12 @@ namespace ConsoleApp129
             {
                 case ConsoleKey.D1:
                     Console.Clear();
-                    kazik.Entry();
-                    
-
+                    kazik.Entry(); 
                     break;
                 case ConsoleKey.Escape:
                     Console.Clear();
                     break;
             }
-        }
-    }
-    internal class Shop : MapObject
-    {
-        public override char Rendering_on_the_map()
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            return '$';
         }
     }
     internal class Door : MapObject

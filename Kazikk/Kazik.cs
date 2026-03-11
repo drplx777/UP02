@@ -1,213 +1,263 @@
 using System;
 using System.Threading;
-using System.Xml;
-using ConsoleApp129.Exceptions;
 
 namespace ConsoleApp129.Kazikk
 {
     class Kazik
     {
-        public Kazik()
-        {}
+        public Kazik() { }
+
         public void Entry()
         {
-            Console.WriteLine("Добро пожаловать в казино! \n Для продолжения выберите игру:");
-            Console.WriteLine("\n1.BlackJack \n 2.Рулетка \n 3.Колесо фортуны");
-            switch (Console.ReadKey().Key)
+            var hero = Map.Current?.FindHero();
+            if (hero == null)
             {
-                case ConsoleKey.D1:
-                BlackJack();
-                break;
-                case ConsoleKey.D2:
-                Roulette();
-                break;
-                case ConsoleKey.D3:
-                WheelOfFortune();
-                break;
+                Console.WriteLine("Ошибка: герой не найден. Казино недоступно.");
+                Console.WriteLine("Убедитесь, что в классе Map есть статическое свойство Current и оно установлено.");
+                Console.WriteLine("Нажмите любую клавишу...");
+                Console.ReadKey(true);
+                return;
             }
-        }
-        public void BlackJack()
-        {
-            int Pcards = 0;
-            int Dcards = 0;
-            Console.WriteLine("Добро Пожаловать в игру");
-            Console.WriteLine("Для начала игры нажмите любую клавишу");
-            Console.ReadKey();
-            Random random = new Random();
+
             while (true)
             {
-                Console.WriteLine("Диллер раздаёт карты...");
-                Pcards = random.Next(1, 11) + random.Next(1, 11);
-                Dcards = random.Next(1, 11) + random.Next(1, 11);
-                Thread.Sleep(1000);
-                Console.WriteLine($"Ваши карты: {Pcards}");
-                Console.WriteLine($"Карты дилера: {Dcards}");
-                
-                while(Pcards <= 21)
+                Console.Clear();
+                Console.WriteLine("Добро пожаловать в казино! \nВыберите игру:");
+                Console.WriteLine("1. BlackJack");
+                Console.WriteLine("2. Рулетка (слоты)");
+                Console.WriteLine("3. Колесо фортуны");
+                Console.WriteLine("Escape. Выйти из казино");
+                var key = Console.ReadKey(true).Key;
+                switch (key)
                 {
-                    Console.WriteLine("Хотите взять еще одну карту? \n 1. Да \n 2. Нет");
-                    if (Console.ReadKey().Key == ConsoleKey.D2)
-                    {
+                    case ConsoleKey.D1:
+                        BlackJack(hero);
                         break;
+                    case ConsoleKey.D2:
+                        Roulette(hero);
+                        break;
+                    case ConsoleKey.D3:
+                        WheelOfFortune(hero);
+                        break;
+                    case ConsoleKey.Escape:
+                        Console.Clear();
+                        return;
+                    default:
+                        Console.WriteLine("Неизвестная команда. Повторите.");
+                        Thread.Sleep(700);
+                        break;
+                }
+            }
+        }
+
+        private void BlackJack(Hero hero)
+        {
+            var rnd = new Random();
+
+            Console.Clear();
+            Console.WriteLine("=== BlackJack ===");
+            Console.WriteLine($"Ваш баланс: {hero.Balance}");
+            int bet = AskBet(hero);
+            if (bet <= 0) return;
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Дилер раздаёт карты...");
+                int Pcards = rnd.Next(1, 11) + rnd.Next(1, 11);
+                int Dcards = rnd.Next(1, 11) + rnd.Next(1, 11);
+
+                Console.WriteLine($"Ваши карты: {Pcards}");
+                Console.WriteLine($"Карты дилера (скрыты): ?");
+
+                bool stand = false;
+                while (!stand && Pcards <= 21)
+                {
+                    Console.WriteLine("Взять ещё? 1 - Да, 2 - Нет");
+                    var k = Console.ReadKey(true).Key;
+                    if (k == ConsoleKey.D1)
+                    {
+                        Pcards += rnd.Next(1, 11);
+                        Console.WriteLine($"Вы взяли. Ваши карты: {Pcards}");
                     }
-                    switch (Console.ReadKey().Key)
+                    else if (k == ConsoleKey.D2)
                     {
-                        case ConsoleKey.D1:
-                            Pcards += random.Next(1, 11);
-                            Console.WriteLine($"Ваши карты: {Pcards}");
-                            Console.WriteLine($"Карты дилера: {Dcards}");
-                        break;
-                        default:
-                            Console.WriteLine("Такого варианта нет");
-                        break;
+                        stand = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Неправильный ввод.");
                     }
                 }
+
+                Console.WriteLine($"Карты дилера: {Dcards}");
+
                 if (Pcards > 21)
                 {
-                    Console.WriteLine($"Ваши карты: {Pcards}");
-                    Console.WriteLine($"Карты дилера: {Dcards}");
-                    Console.WriteLine("Вы проиграли! Перебор.");
+                    Console.WriteLine("Перебор! Вы проиграли.");
+                    hero.Balance -= bet;
                 }
                 else if (Dcards > 21)
                 {
-                    Console.WriteLine($"Ваши карты: {Pcards}");
-                    Console.WriteLine($"Карты дилера: {Dcards}");
-                    Console.WriteLine("Вы выиграли! Дилер перебрал.");
+                    Console.WriteLine("Дилер перебрал — вы выиграли!");
+                    hero.Balance += bet;
                 }
                 else if (Pcards > Dcards)
                 {
-                    Console.WriteLine($"Ваши карты: {Pcards}");
-                    Console.WriteLine($"Карты дилера: {Dcards}");
                     Console.WriteLine("Вы выиграли!");
+                    hero.Balance += bet;
                 }
                 else if (Pcards < Dcards)
                 {
-                    Console.WriteLine($"Ваши карты: {Pcards}");
-                    Console.WriteLine($"Карты дилера: {Dcards}");
                     Console.WriteLine("Вы проиграли!");
+                    hero.Balance -= bet;
                 }
                 else
                 {
-                    Console.WriteLine($"Ваши карты: {Pcards}");
-                    Console.WriteLine($"Карты дилера: {Dcards}");
-                    Console.WriteLine("Ничья!");
+                    Console.WriteLine("Ничья — ставка возвращается.");
+                    // ничего не делаем
                 }
-                Console.WriteLine("Хотите сыграть ещё раз? \n Для продолжения нажмите любую клавишу \n Для выхода нажмите Escape");
-                if (Console.ReadKey().Key == ConsoleKey.Escape)
-                {
-                    break;
-                }
+
+                Console.WriteLine($"\nТекущий баланс: {hero.Balance}");
+                Console.WriteLine("Сыграть ещё? Любая клавиша — ещё, Escape — выйти в казино");
+                var nk = Console.ReadKey(true).Key;
+                if (nk == ConsoleKey.Escape) break;
             }
             Console.Clear();
         }
-        public void Roulette()
+
+        private void Roulette(Hero hero)
         {
-            char[]pics = new char[]{'❤', '♕', '✦', '➆'};
-            int index = 0;
-            Random rnd = new Random();
-            char[]result = new char[3];
-            Console.WriteLine("Добро Пожаловать в игру");
-            Console.WriteLine("Для начала игры нажмите любую клавишу");
-            Console.ReadKey();
+            char[] pics = new char[] { '❤', '♕', '✦', '➆' };
+            var rnd = new Random();
+
+            Console.Clear();
+            Console.WriteLine("=== Рулетка (слоты) ===");
+            Console.WriteLine($"Ваш баланс: {hero.Balance}");
+            int bet = AskBet(hero);
+            if (bet <= 0) return;
+
             while (true)
             {
-                for(int i = 0; i < 10; i++)
+                Console.Clear();
+                Console.WriteLine("Крутим барабаны...");
+                char[] result = new char[3];
+
+                for (int t = 0; t < 10; t++)
                 {
-                    index = rnd.Next(0,3);
-                    result[0] = pics[index];
-                    index = rnd.Next(0,3);
-                    result[1] = pics[index];
-                    index = rnd.Next(0,3);
-                    result[2] = pics[index];
-                    for(int j = 0; j < result.Length; j++)
+                    for (int i = 0; i < 3; i++)
+                        result[i] = pics[rnd.Next(pics.Length)];
+
+                    foreach (var c in result)
                     {
-                        Thread.Sleep(350);
-                        Console.Write(result[j]);
+                        Console.Write(c);
+                        Thread.Sleep(120);
                     }
+                    Console.WriteLine();
                     Console.Clear();
-                    
                 }
-                for(int i = 0; i < result.Length; i++)
-                {
-                    Console.Write(result[i]);
-                }
+
+                for (int i = 0; i < 3; i++)
+                    result[i] = pics[rnd.Next(pics.Length)];
+
+                Console.WriteLine($"{result[0]} {result[1]} {result[2]}");
+
                 if (result[0] == result[1] && result[1] == result[2])
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Вы выйграли! \nНажмите на любую клавишу, чтобы попробовать еще раз \n Escape для выхода");
-
-                }
-                else if(result[0] != result[1] || result[0] != result[2] || result[1] != result[2])
-                {
-                    Console.WriteLine("Вы проиграли \nНажмите на любую клавишу, чтобы попробовать еще раз \nEscape для выхода");
-                }
-                if(Console.ReadKey().Key == ConsoleKey.Escape)
-                {
-                    break;
-                }
-                Console.Clear();
-                
-            }
-        
-        }
-        static void WheelOfFortune()
-        {
-            Console.WriteLine("Добро пожаловать в игру «Колесо фортуны»!");
-            Console.WriteLine("Секторы колеса: 10–100 очков (шаг 10), БАНКРОТ, ПРОПУСК ХОДА");
-            Console.WriteLine("Для выхода введите 'exit'.\n");
-
-            var wheel = new Wheel();
-            var random = new Random();
-            int totalScore = 0;
-            bool gameRunning = true;
-
-            while (gameRunning)
-            {
-                Console.WriteLine($"Текущий счёт: {totalScore}");
-                Console.Write("Нажмите '1' чтобы крутить колесо, или 'Escape' для выхода: ");
-                var input = Console.ReadKey().Key;
-
-                if (input == ConsoleKey.Escape)
-                {
-                    Console.WriteLine("Спасибо за игру! До свидания.");
-                    gameRunning = false;
-                    break;
-                }
-                else if (input == ConsoleKey.D1)
-                {
-                    var segment = wheel.Spin(random);
-                    Console.Write($"Колесо остановилось на секторе: ");
-
-                    switch (segment.Type)
-                    {
-                        case SegmentType.Points:
-                            Console.WriteLine($"{segment.Value} очков");
-                            totalScore += segment.Value;
-                            break;
-                        case SegmentType.Bankrupt:
-                            Console.WriteLine("БАНКРОТ! Все очки сгорают.");
-                            totalScore = 0;
-                            break;
-                        case SegmentType.SkipTurn:
-                            Console.WriteLine("ПРОПУСК ХОДА. Вы ничего не получаете.");
-                            break;
-                    }
-
-                    if (totalScore >= 1000)
-                    {
-                        Console.WriteLine($"\nПоздравляем! Вы набрали {totalScore} очков и победили!");
-                        gameRunning = false;
-                    }
+                    int win = bet * 3;
+                    hero.Balance += win;
+                    Console.WriteLine($"Три в ряд! Вы выиграли {win} монет!");
                 }
                 else
                 {
-                    Console.WriteLine("Неизвестная команда. Попробуйте 'spin' или 'exit'.");
+                    hero.Balance -= bet;
+                    Console.WriteLine($"Увы, вы проиграли {bet} монет.");
                 }
 
-                Console.WriteLine();
+                Console.WriteLine($"Текущий баланс: {hero.Balance}");
+                Console.WriteLine("Ещё раз — любая клавиша, Escape — выйти в казино.");
+                var k = Console.ReadKey(true).Key;
+                if (k == ConsoleKey.Escape) break;
             }
+
+            Console.Clear();
         }
 
-        
+        private void WheelOfFortune(Hero hero)
+        {
+            var wheel = new Wheel();
+            var rnd = new Random();
+
+            Console.Clear();
+            Console.WriteLine("=== Колесо фортуны ===");
+            Console.WriteLine($"Ваш баланс: {hero.Balance}");
+            int bet = AskBet(hero);
+            if (bet <= 0) return;
+
+            bool running = true;
+            while (running)
+            {
+                Console.Clear();
+                Console.WriteLine($"Баланс: {hero.Balance}  |  Ставка: {bet}");
+                Console.WriteLine("Нажмите '1' чтобы крутить, Escape — выйти в казино.");
+                var key = Console.ReadKey(true).Key;
+                if (key == ConsoleKey.Escape) break;
+                if (key != ConsoleKey.D1) continue;
+
+                var seg = wheel.Spin(rnd);
+                switch (seg.Type)
+                {
+                    case SegmentType.Points:
+                        hero.Balance += seg.Value;
+                        Console.WriteLine($"Колесо дало {seg.Value} монет — вы получили {seg.Value}.");
+                        break;
+                    case SegmentType.Bankrupt:
+                        hero.Balance -= bet;
+                        Console.WriteLine($"БАНКРОТ! Вы теряете ставку {bet} монет.");
+                        break;
+                    case SegmentType.SkipTurn:
+                        Console.WriteLine("ПРОПУСК ХОДА — ничего не происходит.");
+                        break;
+                }
+
+                Console.WriteLine($"Текущий баланс: {hero.Balance}");
+                if (hero.Balance <= 0)
+                {
+                    Console.WriteLine("Баланс закончился. Вы не можете больше играть в казино.");
+                    Console.WriteLine("Нажмите любую клавишу, чтобы выйти.");
+                    Console.ReadKey(true);
+                    running = false;
+                    break;
+                }
+
+                Console.WriteLine("Крутить ещё? Любая клавиша — ещё, Escape — выйти");
+                var k = Console.ReadKey(true).Key;
+                if (k == ConsoleKey.Escape) break;
+            }
+
+            Console.Clear();
+        }
+        private int AskBet(Hero hero)
+        {
+            while (true)
+            {
+                Console.Write($"\nВведите ставку (баланс {hero.Balance}) или 0 чтобы отменить: ");
+                string s = Console.ReadLine();
+                if (!int.TryParse(s, out int bet) || bet < 0)
+                {
+                    Console.WriteLine("Неверная ставка. Введите положительное число или 0.");
+                    continue;
+                }
+
+                if (bet == 0) return 0;
+                if (bet > hero.Balance)
+                {
+                    Console.WriteLine("У вас недостаточно денег для такой ставки.");
+                    continue;
+                }
+
+                return bet;
+            }
+        }
     }
 }

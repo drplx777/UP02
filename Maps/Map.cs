@@ -7,6 +7,7 @@ namespace ConsoleApp129
 {
     internal class Map
     {
+        public static Map Current { get; private set; }
         public int MapLevel = 1;
         Random rand = new Random();
         MapObject[,] map = new MapObject[25, 25];
@@ -58,6 +59,10 @@ namespace ConsoleApp129
                     {
                         map[i, j] = new Casino();
                     }
+                    if (level > 2 && i == 15 && j == 15)
+                    {
+                        map[i, j] = new Shop();
+                    }
 
                     if (i == map.GetLength(0) / 2 && j == map.GetLength(1) / 2)
                     {
@@ -67,6 +72,7 @@ namespace ConsoleApp129
             }
 
             doorExists = false;
+            Current = this;
             doorX = doorY = -1;
         }
 
@@ -250,6 +256,10 @@ namespace ConsoleApp129
                         else if (newMap[newX, newY] is Casino)
                         {
                             ((Casino)newMap[newX, newY]).Interaction();
+                        }
+                        else if(newMap[newX, newY] is Shop)
+                        { 
+                            ((Shop)newMap[newX, newY]).Interaction();
                         }
                         else if (newMap[newX, newY] is Door)
                         {
