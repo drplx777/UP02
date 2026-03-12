@@ -372,6 +372,9 @@ namespace ConsoleApp129
                     case nameof(Shop):
                         map[item.X, item.Y] = new Shop();
                         break;
+                    case nameof(Boss):
+                        map[item.X, item.Y] = new Boss(item.X, item.Y);
+                        break;
                 }
             }
 

@@ -7,9 +7,10 @@ namespace ConsoleApp129.Kazikk
     {
         Heal,
         DamageUp,
-        MaxHPUp,
+        DamageDown,
         Bankrupt,
-        SkipTurn
+        SkipTurn,
+        HardMode
     }
 
     class WheelSegment
@@ -32,11 +33,12 @@ namespace ConsoleApp129.Kazikk
                 new WheelSegment{Type = SegmentType.DamageUp, Value = 5},
                 new WheelSegment{Type = SegmentType.DamageUp, Value = 3},
 
-                new WheelSegment{Type = SegmentType.MaxHPUp, Value = 10},
-                new WheelSegment{Type = SegmentType.MaxHPUp, Value = 15},
+                new WheelSegment{Type = SegmentType.DamageDown, Value = 2},
+                new WheelSegment{Type = SegmentType.DamageDown, Value = 4},
 
                 new WheelSegment{Type = SegmentType.SkipTurn, Value = 0},
-                new WheelSegment{Type = SegmentType.Bankrupt, Value = 0}
+                new WheelSegment{Type = SegmentType.Bankrupt, Value = 0},
+                new WheelSegment{Type = SegmentType.HardMode, Value = 0}
             };
         }
 

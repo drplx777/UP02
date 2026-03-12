@@ -26,14 +26,12 @@ namespace ConsoleApp129
     internal class Hero : Person
     {
         public int HP { get; set; }
-        public int MaxHP { get; set; }
         public int Balance { get; set; }
 
         public int Damage {get; set; }
         public Hero(int X, int Y) : base(X, Y)
         {
             HP = 100;
-            MaxHP = 1000;
             Balance = 1000;
             Damage = 10;
 

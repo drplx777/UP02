@@ -194,9 +194,11 @@ namespace ConsoleApp129.Kazikk
 
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("===== КОЛЕСО ФОРТУНЫ =====");
+                Console.WriteLine($"Баланс: {hero.Balance}");
+                Console.WriteLine("Стоимость: 50 монет");
                 Console.ResetColor();
 
-                Console.WriteLine($"HP: {hero.HP}/{hero.MaxHP}");
+                Console.WriteLine($"HP: {hero.HP}/");
                 Console.WriteLine($"Урон: {hero.Damage}");
                 Console.WriteLine();
                 Console.WriteLine("1 — Крутить колесо");
@@ -208,11 +210,11 @@ namespace ConsoleApp129.Kazikk
                     break;
 
                 if (key != ConsoleKey.D1){
-                    hero.Balance -= 50;
                     continue;
                 }
                 Console.Clear();
                 Console.WriteLine("Колесо вращается...");
+                hero.Balance -= 50;
 
                 Thread.Sleep(1000);
 
@@ -227,9 +229,6 @@ namespace ConsoleApp129.Kazikk
 
                         hero.HP += seg.Value;
 
-                        if (hero.HP > hero.MaxHP)
-                            hero.HP = hero.MaxHP;
-
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"Вы восстановили {seg.Value} HP!");
                         break;
@@ -242,13 +241,12 @@ namespace ConsoleApp129.Kazikk
                         Console.WriteLine($"Ваш урон увеличен на {seg.Value}!");
                         break;
 
-                    case SegmentType.MaxHPUp:
+                    case SegmentType.DamageDown:
 
-                        hero.MaxHP += seg.Value;
-                        hero.HP += seg.Value;
+                        hero.Damage -= seg.Value;
 
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"Максимальное HP увеличено на {seg.Value}!");
+                        Console.WriteLine($"Ваш урон уменьщен на {seg.Value}!");
                         break;
 
                     case SegmentType.Bankrupt:
@@ -263,6 +261,11 @@ namespace ConsoleApp129.Kazikk
 
                         Console.ForegroundColor = ConsoleColor.Gray;
                         Console.WriteLine("Пропуск! Ничего не произошло.");
+                        break;
+                    case SegmentType.HardMode:
+                        hero.HP -= hero.HP - 1;
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Хардмод!, Ваш HP снижен до 1");
                         break;
                 }
 
@@ -286,7 +289,7 @@ namespace ConsoleApp129.Kazikk
             while (boss.Lives > 0 && hero.HP > 0)
             {
                 Console.Clear();
-                Console.WriteLine($"Босс — жизни: {boss.Lives}. Ваш HP: {hero.HP}/{hero.MaxHP}");
+                Console.WriteLine($"Босс — жизни: {boss.Lives}. Ваш HP: {hero.HP}");
                 int Pcards = rnd.Next(1, 11) + rnd.Next(1, 11);
                 int Dcards = rnd.Next(1, 11) + rnd.Next(1, 11);
 
@@ -358,7 +361,7 @@ namespace ConsoleApp129.Kazikk
                     break;
                 }
 
-                Console.WriteLine($"Осталось жизней босса: {boss.Lives}. Ваш HP: {hero.HP}/{hero.MaxHP}");
+                Console.WriteLine($"Осталось жизней босса: {boss.Lives}. Ваш HP: {hero.HP}");
                 Console.WriteLine("Сыграть следующий раунд? Любая клавиша — продолжить, Escape — отступить (вернётесь на место).");
                 var nk = Console.ReadKey(true).Key;
                 if (nk == ConsoleKey.Escape) break;
