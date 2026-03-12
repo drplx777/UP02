@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using ConsoleApp129.Save;
 using ConsoleApp129.Maps;
+using System.Threading;
+using ConsoleApp129.Kazikk;
 
 namespace ConsoleApp129
 {
@@ -70,6 +72,19 @@ namespace ConsoleApp129
                     }
                 }
             }
+            if (level % 3 == 0)
+            {
+                List<(int x, int y)> free = new List<(int, int)>();
+                for (int i = 0; i < map.GetLength(0); i++)
+                    for (int j = 0; j < map.GetLength(1); j++)
+                        if (map[i, j] is Field) free.Add((i, j));
+
+                if (free.Count > 0)
+                {
+                    var pick = free[rand.Next(free.Count)];
+                    map[pick.x, pick.y] = new Boss(pick.x, pick.y);
+                }
+            }
 
             doorExists = false;
             Current = this;
@@ -105,7 +120,7 @@ namespace ConsoleApp129
 
             if (Enemies == 0)
             {
-                if (MapLevel < 4)
+                if (MapLevel < 9)
                 {
                     if (!doorExists)
                     {
@@ -120,7 +135,7 @@ namespace ConsoleApp129
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Поздравляем! Вы очистили 4-й уровень и победили в игре!");
+                    Console.WriteLine("Поздравляем! Вы очистили 9-й уровень и победили в игре!");
                     Console.ResetColor();
                     Console.WriteLine("Нажмите любую клавишу для выхода...");
                     Console.ReadKey();
@@ -230,6 +245,20 @@ namespace ConsoleApp129
                             newMap[newX, newY] = map[i, j];
                             newMap[i, j] = new Field();
                         }
+                        if (newMap[newX, newY] is Boss boss)
+                        {
+                            var kazik = new Kazik();
+                            kazik.BossBlackjack(hero, boss);
+
+                            if (boss.Lives <= 0)
+                            {
+                                newMap[newX, newY] = map[i, j];
+                                newMap[i, j] = new Field();
+                            }
+                            else
+                            {
+                            }
+                        }
                         else if (newMap[newX, newY] is HealthPoint)
                         {
                             newMap[newX, newY] = map[i, j];
@@ -263,12 +292,27 @@ namespace ConsoleApp129
                         }
                         else if (newMap[newX, newY] is Door)
                         {
-                            if (MapLevel < 4)
+                            if (MapLevel < 9)
                             {
+                                var oldHero = FindHero() as Hero;
+                                int oldHP = oldHero?.HP ?? 100;
+                                int oldBalance = oldHero?.Balance ?? 1000;
+                                int oldDamage = oldHero?.Damage ?? 10;
                                 MapLevel++;
                                 GenerateLevel(MapLevel);
                                 Console.Clear();
                                 Console.WriteLine($"Переход на уровень {MapLevel}...");
+                                Thread.Sleep(1000);
+
+                                int centerX = map.GetLength(0) / 2;
+                                int centerY = map.GetLength(1) / 2;
+                                map[centerX, centerY] = new Hero(centerX, centerY);
+                                map[centerX, centerY] = new Hero(centerX, centerY)
+                                {
+                                    HP = oldHP,
+                                    Balance = oldBalance,
+                                    Damage = oldDamage
+                                };
                             }
                             else
                             {
@@ -325,13 +369,18 @@ namespace ConsoleApp129
                         doorX = item.X;
                         doorY = item.Y;
                         break;
+                    case nameof(Shop):
+                        map[item.X, item.Y] = new Shop();
+                        break;
                 }
             }
 
             map[data.HeroX, data.HeroY] =
                 new Hero(data.HeroX, data.HeroY)
                 {
-                    HP = data.HeroHP
+                    HP = data.HeroHP,
+                    Balance = data.HeroBalance,
+                    Damage = data.HeroDamage
                 };
 
             MapLevel = data.MapLevel <= 0 ? 1 : data.MapLevel;
@@ -355,6 +404,8 @@ namespace ConsoleApp129
                         data.HeroX = i;
                         data.HeroY = j;
                         data.HeroHP = h.HP;
+                        data.HeroBalance = h.Balance;
+                        data.HeroDamage = h.Damage;
                     }
                     else if (map[i, j] is not Field)
                     {

@@ -188,55 +188,185 @@ namespace ConsoleApp129.Kazikk
             var wheel = new Wheel();
             var rnd = new Random();
 
-            Console.Clear();
-            Console.WriteLine("=== Колесо фортуны ===");
-            Console.WriteLine($"Ваш баланс: {hero.Balance}");
-            int bet = AskBet(hero);
-            if (bet <= 0) return;
-
-            bool running = true;
-            while (running)
+            while (true)
             {
                 Console.Clear();
-                Console.WriteLine($"Баланс: {hero.Balance}  |  Ставка: {bet}");
-                Console.WriteLine("Нажмите '1' чтобы крутить, Escape — выйти в казино.");
+
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("===== КОЛЕСО ФОРТУНЫ =====");
+                Console.ResetColor();
+
+                Console.WriteLine($"HP: {hero.HP}/{hero.MaxHP}");
+                Console.WriteLine($"Урон: {hero.Damage}");
+                Console.WriteLine();
+                Console.WriteLine("1 — Крутить колесо");
+                Console.WriteLine("Escape — Выйти");
+
                 var key = Console.ReadKey(true).Key;
-                if (key == ConsoleKey.Escape) break;
-                if (key != ConsoleKey.D1) continue;
+
+                if (key == ConsoleKey.Escape)
+                    break;
+
+                if (key != ConsoleKey.D1){
+                    hero.Balance -= 50;
+                    continue;
+                }
+                Console.Clear();
+                Console.WriteLine("Колесо вращается...");
+
+                Thread.Sleep(1000);
 
                 var seg = wheel.Spin(rnd);
+
+                Console.Clear();
+                Console.WriteLine("Колесо остановилось!");
+
                 switch (seg.Type)
                 {
-                    case SegmentType.Points:
-                        hero.Balance += seg.Value;
-                        Console.WriteLine($"Колесо дало {seg.Value} монет — вы получили {seg.Value}.");
+                    case SegmentType.Heal:
+
+                        hero.HP += seg.Value;
+
+                        if (hero.HP > hero.MaxHP)
+                            hero.HP = hero.MaxHP;
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Вы восстановили {seg.Value} HP!");
                         break;
+
+                    case SegmentType.DamageUp:
+
+                        hero.Damage += seg.Value;
+
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Ваш урон увеличен на {seg.Value}!");
+                        break;
+
+                    case SegmentType.MaxHPUp:
+
+                        hero.MaxHP += seg.Value;
+                        hero.HP += seg.Value;
+
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"Максимальное HP увеличено на {seg.Value}!");
+                        break;
+
                     case SegmentType.Bankrupt:
-                        hero.Balance -= bet;
-                        Console.WriteLine($"БАНКРОТ! Вы теряете ставку {bet} монет.");
+
+                        hero.HP -= 10;
+
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Неудача! Вы потеряли 10 HP.");
                         break;
+
                     case SegmentType.SkipTurn:
-                        Console.WriteLine("ПРОПУСК ХОДА — ничего не происходит.");
+
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.WriteLine("Пропуск! Ничего не произошло.");
                         break;
                 }
 
-                Console.WriteLine($"Текущий баланс: {hero.Balance}");
-                if (hero.Balance <= 0)
+                Console.ResetColor();
+
+                Console.WriteLine();
+                Console.WriteLine("Нажмите любую клавишу...");
+                Console.ReadKey();
+            }
+    }
+        public void BossBlackjack(Hero hero, Boss boss)
+        {
+            var rnd = new Random();
+
+            Console.Clear();
+            Console.WriteLine($"Вы вступили в поединок с БОССОМ! (Осталось жизней: {boss.Lives})");
+            Console.WriteLine("Правила просты: раунд 21. Выигрыш — отнимает одну жизнь у босса. Проигрыш — вы получаете урон.");
+            Console.WriteLine("Нажмите любую клавишу чтобы начать раунд...");
+            Console.ReadKey(true);
+
+            while (boss.Lives > 0 && hero.HP > 0)
+            {
+                Console.Clear();
+                Console.WriteLine($"Босс — жизни: {boss.Lives}. Ваш HP: {hero.HP}/{hero.MaxHP}");
+                int Pcards = rnd.Next(1, 11) + rnd.Next(1, 11);
+                int Dcards = rnd.Next(1, 11) + rnd.Next(1, 11);
+
+                Console.WriteLine($"Ваши карты: {Pcards}");
+                Console.WriteLine($"Карты босса (скрыты): ?");
+
+                bool stand = false;
+                while (!stand && Pcards <= 21)
                 {
-                    Console.WriteLine("Баланс закончился. Вы не можете больше играть в казино.");
-                    Console.WriteLine("Нажмите любую клавишу, чтобы выйти.");
+                    Console.WriteLine("Взять ещё? 1 - Да, 2 - Нет");
+                    var k = Console.ReadKey(true).Key;
+                    if (k == ConsoleKey.D1)
+                    {
+                        Pcards += rnd.Next(1, 11);
+                        Console.WriteLine($"Вы взяли. Ваши карты: {Pcards}");
+                    }
+                    else if (k == ConsoleKey.D2)
+                    {
+                        stand = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Неправильный ввод.");
+                    }
+                }
+
+                Console.WriteLine($"Карты босса: {Dcards}");
+
+                if (Pcards > 21)
+                {
+                    Console.WriteLine("Перебор! Вы проиграли раунд.");
+                    hero.HP -= boss.Damage;
+                    Console.WriteLine($"Вы получили {boss.Damage} урона.");
+                }
+                else if (Dcards > 21)
+                {
+                    Console.WriteLine("Босс перебрал — вы выиграли раунд!");
+                    boss.Lives--;
+                }
+                else if (Pcards > Dcards)
+                {
+                    Console.WriteLine("Вы выиграли раунд!");
+                    boss.Lives--;
+                }
+                else if (Pcards < Dcards)
+                {
+                    Console.WriteLine("Вы проиграли раунд!");
+                    hero.HP -= boss.Damage;
+                    Console.WriteLine($"Вы получили {boss.Damage} урона.");
+                }
+                else
+                {
+                    Console.WriteLine("Ничья — ничего не происходит.");
+                }
+
+                if (hero.HP <= 0)
+                {
+                    Console.WriteLine("Вы погибли в бою с боссом...");
+                    Console.WriteLine("Нажмите любую клавишу.");
                     Console.ReadKey(true);
-                    running = false;
+                    Environment.Exit(0);
+                }
+
+                if (boss.Lives <= 0)
+                {
+                    Console.WriteLine("Босс повержен!");
+                    Console.WriteLine("Нажмите любую клавишу чтобы вернуться в игру.");
+                    Console.ReadKey(true);
                     break;
                 }
 
-                Console.WriteLine("Крутить ещё? Любая клавиша — ещё, Escape — выйти");
-                var k = Console.ReadKey(true).Key;
-                if (k == ConsoleKey.Escape) break;
+                Console.WriteLine($"Осталось жизней босса: {boss.Lives}. Ваш HP: {hero.HP}/{hero.MaxHP}");
+                Console.WriteLine("Сыграть следующий раунд? Любая клавиша — продолжить, Escape — отступить (вернётесь на место).");
+                var nk = Console.ReadKey(true).Key;
+                if (nk == ConsoleKey.Escape) break;
             }
 
             Console.Clear();
         }
+
         private int AskBet(Hero hero)
         {
             while (true)

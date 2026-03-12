@@ -78,5 +78,22 @@ namespace ConsoleApp129
             return '█';
         }
     }
+    internal class Boss : Enemy
+    {
+        public int Lives { get; set; } = 3;
+
+        public Boss(int X, int Y) : base(X, Y)
+        {
+            HP = 100;
+            Damage = 20;
+            Lives = 3;
+        }
+
+        public override char Rendering_on_the_map()
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            return '♕';
+        }
+    }
     
 }

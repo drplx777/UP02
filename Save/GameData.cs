@@ -10,6 +10,8 @@ namespace ConsoleApp129.Save
         public int HeroX { get; set; }
         public int HeroY { get; set; }
         public int HeroHP { get; set; }
+        public int HeroBalance { get; set; }
+        public int HeroDamage { get; set; } 
 
         public int MapLevel { get; set; } = 1;
 
