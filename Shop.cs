@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 namespace ConsoleApp129
 {
     internal class Shop : MapObject
@@ -19,7 +20,6 @@ namespace ConsoleApp129
         /// </summary>
         public void Interaction()
         {
-
             var map = Map.Current;
             var hero = map?.FindHero();
 
@@ -31,6 +31,14 @@ namespace ConsoleApp129
                 return;
             }
 
+            // Создаём список стратегий (товаров)
+            var items = new Dictionary<ConsoleKey, IShopItemStrategy>
+            {
+                { ConsoleKey.D1, new HealSmallStrategy() },
+                { ConsoleKey.D2, new HealBigStrategy() },
+                { ConsoleKey.D3, new DamageUpStrategy() }
+            };
+
             bool keepRunning = true;
             while (keepRunning)
             {
@@ -38,49 +46,34 @@ namespace ConsoleApp129
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("=== Магазин ===");
                 Console.ResetColor();
+
                 Console.WriteLine($"Ваш баланс: {hero.Balance} монет");
                 Console.WriteLine($"HP: {hero.HP}");
                 Console.WriteLine($"Урон: {hero.Damage}\n");
 
-                Console.WriteLine("1. Восстановить 20 HP — 50 монет");
-                Console.WriteLine("2. Добавить 300 HP — 300 монет");
-                Console.WriteLine("3. Улучшить урон +5 — 200 монет");
+                // Выводим товары из стратегий
+                foreach (var item in items)
+                {
+                    Console.WriteLine($"{item.Key.ToString().Replace("D", "")}. {item.Value.Description}");
+                }
+
                 Console.WriteLine("Escape. Выйти из магазина");
 
                 var key = Console.ReadKey(true).Key;
-                switch (key)
+
+                if (key == ConsoleKey.Escape)
                 {
-                    case ConsoleKey.D1:
-                        TryBuy(hero, price: 50, onBuy: () =>
-                        {
-                            hero.HP += 20;
-                            Console.WriteLine("Вы получили +20 HP.");
-                        });
-                        break;
+                    keepRunning = false;
+                    continue;
+                }
 
-                    case ConsoleKey.D2:
-                        TryBuy(hero, price: 300, onBuy: () =>
-                        {
-                            hero.HP += 300;
-                            Console.WriteLine("+300 HP добавлено.");
-                        });
-                        break;
-
-                    case ConsoleKey.D3:
-                        TryBuy(hero, price: 200, onBuy: () =>
-                        {
-                            hero.Damage += 5;
-                            Console.WriteLine("Урон увеличен на +5.");
-                        });
-                        break;
-
-                    case ConsoleKey.Escape:
-                        keepRunning = false;
-                        break;
-
-                    default:
-                        Console.WriteLine("Неизвестная команда.");
-                        break;
+                if (items.TryGetValue(key, out var strategy))
+                {
+                    TryBuy(hero, strategy.Price, () => strategy.Apply(hero));
+                }
+                else
+                {
+                    Console.WriteLine("Неизвестная команда.");
                 }
 
                 if (keepRunning)
