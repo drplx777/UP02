@@ -11,6 +11,8 @@ namespace ConsoleApp129
         /// <summary>
         /// Текущий экземпляр карты (используется магазинами/казино для доступа к герою).
         /// </summary>
+        private IEnemyMovementStrategy enemyMovementStrategy = new RandomEnemyMovementStrategy();
+
         public static Map Current { get; private set; }
 
         /// <summary>Текущий уровень мира.</summary>
@@ -244,30 +246,17 @@ namespace ConsoleApp129
             MapObject[,] newMap = new MapObject[map.GetLength(0), map.GetLength(1)];
             Array.Copy(map, newMap, map.Length);
 
+            int width = map.GetLength(0);
+            int height = map.GetLength(1);
+
             for (int i = 0; i < map.GetLength(0); i++)
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
                     if (map[i, j] is Enemy)
                     {
-                        int direction = rand.Next(4);
-
-                        int newX = i, newY = j;
-                        switch (direction)
-                        {
-                            case 0:
-                                newX = (i - 1 + map.GetLength(0)) % map.GetLength(0);
-                                break;
-                            case 1:
-                                newX = (i + 1) % map.GetLength(0);
-                                break;
-                            case 2:
-                                newY = (j - 1 + map.GetLength(1)) % map.GetLength(1);
-                                break;
-                            case 3:
-                                newY = (j + 1) % map.GetLength(1);
-                                break;
-                        }
+                        // Получаем новое положение через стратегию
+                        var (newX, newY) = enemyMovementStrategy.GetNextPosition(i, j, width, height, rand);
 
                         if (newMap[newX, newY] is Field)
                         {
