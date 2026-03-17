@@ -424,68 +424,44 @@ namespace ConsoleApp129
             Array.Copy(newMap, map, map.Length);
         }
 
-        /// <summary>
-        /// Загружает состояние карты из переданных данных (<see cref="GameData"/>).
-        /// Восстанавливает объекты и героя.
-        /// Поддерживает загрузку финального босса (FinalBoss).
-        /// </summary>
-        /// <param name="data">Данные игры для восстановления.</param>
-        public void LoadGame(GameData data)
+/// <summary>
+/// Загружает состояние карты из переданных данных (<see cref="GameData"/>).
+/// Восстанавливает объекты и героя.
+/// Поддерживает загрузку финального босса (FinalBoss).
+/// </summary>
+/// <param name="data">Данные игры для восстановления.</param>
+public void LoadGame(GameData data)
+{
+    map = new MapObject[data.Width, data.Height];
+
+    for (int i = 0; i < data.Width; i++)
+        for (int j = 0; j < data.Height; j++)
+            map[i, j] = new Field();
+
+    foreach (var item in data.Items)
+    {
+        // Используем фабрику для создания объектов по имени типа.
+        map[item.X, item.Y] = MapObjectFactory.Create(item.Type, item.X, item.Y);
+
+        // Особая логика для двери — сохраняем её координаты/флаг.
+        if (map[item.X, item.Y] is Door)
         {
-            map = new MapObject[data.Width, data.Height];
-
-            for (int i = 0; i < data.Width; i++)
-                for (int j = 0; j < data.Height; j++)
-                    map[i, j] = new Field();
-
-            foreach (var item in data.Items)
-            {
-                switch (item.Type)
-                {
-                    case nameof(Wall):
-                        map[item.X, item.Y] = new Wall();
-                        break;
-                    case nameof(Tree):
-                        map[item.X, item.Y] = new Tree();
-                        break;
-                    case nameof(HealthPoint):
-                        map[item.X, item.Y] = new HealthPoint();
-                        break;
-                    case nameof(Casino):
-                        map[item.X, item.Y] = new Casino();
-                        break;
-                    case nameof(Enemy):
-                        map[item.X, item.Y] = new Enemy(item.X, item.Y);
-                        break;
-                    case nameof(Door):
-                        map[item.X, item.Y] = new Door();
-                        doorExists = true;
-                        doorX = item.X;
-                        doorY = item.Y;
-                        break;
-                    case nameof(Shop):
-                        map[item.X, item.Y] = new Shop();
-                        break;
-                    case nameof(Boss):
-                        map[item.X, item.Y] = new Boss(item.X, item.Y);
-                        break;
-                    case nameof(FinalBoss):
-                        map[item.X, item.Y] = new FinalBoss(item.X, item.Y);
-                        break;
-                }
-            }
-
-            map[data.HeroX, data.HeroY] =
-                new Hero(data.HeroX, data.HeroY)
-                {
-                    HP = data.HeroHP,
-                    Balance = data.HeroBalance,
-                    Damage = data.HeroDamage
-                };
-
-            MapLevel = data.MapLevel <= 0 ? 1 : data.MapLevel;
+            doorExists = true;
+            doorX = item.X;
+            doorY = item.Y;
         }
+    }
 
+    map[data.HeroX, data.HeroY] =
+        new Hero(data.HeroX, data.HeroY)
+        {
+            HP = data.HeroHP,
+            Balance = data.HeroBalance,
+            Damage = data.HeroDamage
+        };
+
+    MapLevel = data.MapLevel <= 0 ? 1 : data.MapLevel;
+}
         /// <summary>
         /// Собирает текущее состояние карты в объект <see cref="GameData"/>.
         /// </summary>
