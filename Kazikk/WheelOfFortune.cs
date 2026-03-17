@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace ConsoleApp129.Kazikk
 {
-    enum SegmentType
+    /// <summary>
+    /// Тип сегмента колеса фортуны (для игрока).
+    /// </summary>
+    public enum SegmentType
     {
         Heal,
         DamageUp,
@@ -13,7 +16,10 @@ namespace ConsoleApp129.Kazikk
         HardMode
     }
 
-    class WheelSegment
+    /// <summary>
+    /// Сегмент обычного колеса фортуны (для игрока).
+    /// </summary>
+    public class WheelSegment
     {
         /// <summary>Тип сегмента колеса фортуны.</summary>
         public SegmentType Type { get; set; }
@@ -21,7 +27,10 @@ namespace ConsoleApp129.Kazikk
         public int Value { get; set; }
     }
 
-    class Wheel
+    /// <summary>
+    /// Обычное колесо фортуны, которым пользуется игрок (в казино).
+    /// </summary>
+    public class Wheel
     {
         /// <summary>Список сегментов колеса.</summary>
         public readonly List<WheelSegment> _segments;
@@ -57,4 +66,69 @@ namespace ConsoleApp129.Kazikk
             return _segments[index];
         }
     }
+
+    #region Final boss wheel and effects
+
+    /// <summary>
+    /// Типы эффектов, которые может получить финальный босс.
+    /// </summary>
+    public enum FinalBossEffectType
+    {
+        DamageUp,
+        Shield,
+        Regen,
+        DoubleStrike,
+        Nothing
+    }
+
+    /// <summary>
+    /// Описывает эффект, действующий на финального босса в течение нескольких ходов.
+    /// </summary>
+    public class FinalBossEffect
+    {
+        /// <summary>Тип эффекта.</summary>
+        public FinalBossEffectType Type { get; set; }
+
+        /// <summary>Числовое значение эффекта (урон, проценты, реген и т.д.).</summary>
+        public int Value { get; set; }
+
+        /// <summary>Оставшееся количество ходов действия эффекта.</summary>
+        public int TurnsRemaining { get; set; }
+    }
+
+    /// <summary>
+    /// Колесо финального босса, выдающее временные эффекты (DamageUp, Shield, Regen, DoubleStrike).
+    /// </summary>
+    public class FinalBossWheel
+    {
+        private readonly List<FinalBossEffect> _segments = new List<FinalBossEffect>();
+
+        /// <summary>Создаёт колесо финального босса с набором эффектов и длительностей.</summary>
+        public FinalBossWheel()
+        {
+            _segments.Add(new FinalBossEffect { Type = FinalBossEffectType.DamageUp, Value = 10, TurnsRemaining = 3 });
+            _segments.Add(new FinalBossEffect { Type = FinalBossEffectType.DamageUp, Value = 6, TurnsRemaining = 2 });
+
+            _segments.Add(new FinalBossEffect { Type = FinalBossEffectType.Shield, Value = 30, TurnsRemaining = 2 }); // уменьшает входящий урон на 30%
+            _segments.Add(new FinalBossEffect { Type = FinalBossEffectType.Shield, Value = 50, TurnsRemaining = 1 });
+
+            _segments.Add(new FinalBossEffect { Type = FinalBossEffectType.Regen, Value = 15, TurnsRemaining = 3 }); // реген HP/ход
+            _segments.Add(new FinalBossEffect { Type = FinalBossEffectType.DoubleStrike, Value = 0, TurnsRemaining = 1 });
+
+            _segments.Add(new FinalBossEffect { Type = FinalBossEffectType.Nothing, Value = 0, TurnsRemaining = 0 });
+        }
+
+        /// <summary>
+        /// Крутит колесо и возвращает случайный эффект (копия, чтобы не менять шаблон).
+        /// </summary>
+        /// <param name="random">Экземпляр <see cref="Random"/>.</param>
+        /// <returns>Возвращает новый объект <see cref="FinalBossEffect"/> с параметрами выбранного сегмента.</returns>
+        public FinalBossEffect Spin(Random random)
+        {
+            var pick = _segments[random.Next(_segments.Count)];
+            return new FinalBossEffect { Type = pick.Type, Value = pick.Value, TurnsRemaining = pick.TurnsRemaining };
+        }
+    }
+
+    #endregion
 }

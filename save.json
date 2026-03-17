@@ -1,22 +1,32 @@
 {
   "Width": 25,
   "Height": 25,
-  "HeroX": 19,
-  "HeroY": 13,
-  "HeroHP": 640,
-  "HeroBalance": 800,
-  "HeroDamage": 23,
-  "MapLevel": 9,
+  "HeroX": 8,
+  "HeroY": 6,
+  "HeroHP": 277,
+  "HeroBalance": 0,
+  "HeroDamage": 30,
+  "MapLevel": 10,
   "Items": [
     {
-      "Type": "Enemy",
+      "Type": "Tree",
+      "X": 0,
+      "Y": 2
+    },
+    {
+      "Type": "Tree",
       "X": 0,
       "Y": 4
     },
     {
       "Type": "Tree",
       "X": 0,
-      "Y": 18
+      "Y": 5
+    },
+    {
+      "Type": "Tree",
+      "X": 0,
+      "Y": 9
     },
     {
       "Type": "Tree",
@@ -24,29 +34,54 @@
       "Y": 19
     },
     {
+      "Type": "HealthPoint",
+      "X": 0,
+      "Y": 22
+    },
+    {
       "Type": "Tree",
       "X": 1,
-      "Y": 4
+      "Y": 16
     },
     {
       "Type": "HealthPoint",
-      "X": 1,
-      "Y": 6
-    },
-    {
-      "Type": "Tree",
       "X": 1,
       "Y": 17
     },
     {
       "Type": "Tree",
       "X": 1,
-      "Y": 19
+      "Y": 22
+    },
+    {
+      "Type": "Enemy",
+      "X": 2,
+      "Y": 0
+    },
+    {
+      "Type": "Enemy",
+      "X": 2,
+      "Y": 1
+    },
+    {
+      "Type": "Enemy",
+      "X": 2,
+      "Y": 3
     },
     {
       "Type": "Tree",
       "X": 2,
-      "Y": 11
+      "Y": 12
+    },
+    {
+      "Type": "Tree",
+      "X": 2,
+      "Y": 13
+    },
+    {
+      "Type": "Enemy",
+      "X": 2,
+      "Y": 17
     },
     {
       "Type": "Tree",
@@ -56,102 +91,112 @@
     {
       "Type": "Enemy",
       "X": 2,
-      "Y": 24
+      "Y": 21
     },
     {
-      "Type": "HealthPoint",
-      "X": 3,
-      "Y": 3
-    },
-    {
-      "Type": "Tree",
-      "X": 3,
-      "Y": 4
-    },
-    {
-      "Type": "Tree",
+      "Type": "Enemy",
       "X": 3,
       "Y": 7
     },
     {
+      "Type": "Enemy",
+      "X": 3,
+      "Y": 8
+    },
+    {
       "Type": "Tree",
       "X": 3,
-      "Y": 13
+      "Y": 18
+    },
+    {
+      "Type": "Tree",
+      "X": 3,
+      "Y": 24
     },
     {
       "Type": "Tree",
       "X": 4,
-      "Y": 3
+      "Y": 1
     },
     {
-      "Type": "Enemy",
+      "Type": "Tree",
       "X": 4,
       "Y": 6
     },
     {
-      "Type": "Enemy",
+      "Type": "HealthPoint",
+      "X": 4,
+      "Y": 7
+    },
+    {
+      "Type": "Tree",
+      "X": 4,
+      "Y": 9
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 4,
+      "Y": 10
+    },
+    {
+      "Type": "Tree",
       "X": 4,
       "Y": 14
     },
     {
       "Type": "Tree",
       "X": 4,
-      "Y": 17
+      "Y": 16
+    },
+    {
+      "Type": "Tree",
+      "X": 4,
+      "Y": 20
+    },
+    {
+      "Type": "Tree",
+      "X": 4,
+      "Y": 22
     },
     {
       "Type": "HealthPoint",
       "X": 5,
+      "Y": 2
+    },
+    {
+      "Type": "Tree",
+      "X": 5,
+      "Y": 3
+    },
+    {
+      "Type": "Tree",
+      "X": 5,
+      "Y": 11
+    },
+    {
+      "Type": "Tree",
+      "X": 5,
+      "Y": 17
+    },
+    {
+      "Type": "Enemy",
+      "X": 5,
+      "Y": 22
+    },
+    {
+      "Type": "Tree",
+      "X": 6,
       "Y": 0
     },
     {
       "Type": "Tree",
-      "X": 5,
-      "Y": 4
-    },
-    {
-      "Type": "HealthPoint",
-      "X": 5,
-      "Y": 6
+      "X": 6,
+      "Y": 3
     },
     {
       "Type": "Tree",
-      "X": 5,
-      "Y": 8
-    },
-    {
-      "Type": "Tree",
-      "X": 5,
-      "Y": 10
-    },
-    {
-      "Type": "HealthPoint",
-      "X": 5,
-      "Y": 16
-    },
-    {
-      "Type": "HealthPoint",
-      "X": 5,
+      "X": 6,
       "Y": 19
-    },
-    {
-      "Type": "Tree",
-      "X": 6,
-      "Y": 10
-    },
-    {
-      "Type": "Tree",
-      "X": 6,
-      "Y": 13
-    },
-    {
-      "Type": "Tree",
-      "X": 6,
-      "Y": 17
-    },
-    {
-      "Type": "HealthPoint",
-      "X": 6,
-      "Y": 20
     },
     {
       "Type": "Tree",
@@ -160,53 +205,73 @@
     },
     {
       "Type": "HealthPoint",
-      "X": 6,
+      "X": 7,
+      "Y": 8
+    },
+    {
+      "Type": "Tree",
+      "X": 7,
+      "Y": 21
+    },
+    {
+      "Type": "Enemy",
+      "X": 7,
+      "Y": 23
+    },
+    {
+      "Type": "Enemy",
+      "X": 7,
       "Y": 24
     },
     {
       "Type": "Tree",
-      "X": 7,
+      "X": 8,
       "Y": 0
     },
     {
       "Type": "Tree",
-      "X": 7,
+      "X": 8,
       "Y": 14
     },
     {
-      "Type": "HealthPoint",
-      "X": 7,
-      "Y": 20
-    },
-    {
       "Type": "Tree",
       "X": 8,
-      "Y": 9
-    },
-    {
-      "Type": "HealthPoint",
-      "X": 8,
-      "Y": 19
-    },
-    {
-      "Type": "Tree",
-      "X": 9,
       "Y": 16
     },
     {
       "Type": "Enemy",
       "X": 9,
-      "Y": 19
+      "Y": 1
+    },
+    {
+      "Type": "Enemy",
+      "X": 9,
+      "Y": 9
     },
     {
       "Type": "Tree",
       "X": 9,
-      "Y": 23
+      "Y": 10
+    },
+    {
+      "Type": "Tree",
+      "X": 9,
+      "Y": 21
+    },
+    {
+      "Type": "Enemy",
+      "X": 10,
+      "Y": 2
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 10,
+      "Y": 4
     },
     {
       "Type": "Tree",
       "X": 10,
-      "Y": 1
+      "Y": 7
     },
     {
       "Type": "Tree",
@@ -221,27 +286,37 @@
     {
       "Type": "Tree",
       "X": 10,
-      "Y": 16
+      "Y": 11
     },
     {
-      "Type": "HealthPoint",
-      "X": 11,
-      "Y": 10
+      "Type": "Enemy",
+      "X": 10,
+      "Y": 19
+    },
+    {
+      "Type": "Tree",
+      "X": 10,
+      "Y": 22
+    },
+    {
+      "Type": "Enemy",
+      "X": 10,
+      "Y": 23
     },
     {
       "Type": "Tree",
       "X": 11,
-      "Y": 13
+      "Y": 0
     },
     {
       "Type": "Enemy",
       "X": 11,
-      "Y": 16
+      "Y": 2
     },
     {
       "Type": "Enemy",
       "X": 11,
-      "Y": 19
+      "Y": 10
     },
     {
       "Type": "Tree",
@@ -249,19 +324,19 @@
       "Y": 24
     },
     {
-      "Type": "Tree",
+      "Type": "Enemy",
       "X": 12,
-      "Y": 0
+      "Y": 5
     },
     {
       "Type": "Tree",
       "X": 12,
-      "Y": 3
+      "Y": 6
     },
     {
-      "Type": "Tree",
+      "Type": "Enemy",
       "X": 12,
-      "Y": 4
+      "Y": 7
     },
     {
       "Type": "Tree",
@@ -270,18 +345,23 @@
     },
     {
       "Type": "HealthPoint",
+      "X": 12,
+      "Y": 21
+    },
+    {
+      "Type": "Enemy",
       "X": 13,
-      "Y": 2
+      "Y": 0
+    },
+    {
+      "Type": "Tree",
+      "X": 13,
+      "Y": 12
     },
     {
       "Type": "Tree",
       "X": 13,
       "Y": 16
-    },
-    {
-      "Type": "Tree",
-      "X": 13,
-      "Y": 20
     },
     {
       "Type": "Tree",
@@ -291,27 +371,42 @@
     {
       "Type": "Enemy",
       "X": 14,
-      "Y": 13
+      "Y": 7
+    },
+    {
+      "Type": "Tree",
+      "X": 14,
+      "Y": 8
     },
     {
       "Type": "HealthPoint",
       "X": 14,
-      "Y": 23
+      "Y": 9
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 14,
+      "Y": 13
     },
     {
       "Type": "Tree",
+      "X": 14,
+      "Y": 16
+    },
+    {
+      "Type": "HealthPoint",
       "X": 15,
       "Y": 2
     },
     {
-      "Type": "Tree",
+      "Type": "Enemy",
       "X": 15,
-      "Y": 3
+      "Y": 4
     },
     {
-      "Type": "Tree",
+      "Type": "Enemy",
       "X": 15,
-      "Y": 8
+      "Y": 6
     },
     {
       "Type": "Shop",
@@ -319,44 +414,94 @@
       "Y": 15
     },
     {
-      "Type": "HealthPoint",
-      "X": 16,
-      "Y": 4
-    },
-    {
       "Type": "Tree",
-      "X": 16,
-      "Y": 14
-    },
-    {
-      "Type": "Enemy",
-      "X": 16,
-      "Y": 23
-    },
-    {
-      "Type": "Tree",
-      "X": 16,
+      "X": 15,
       "Y": 24
     },
     {
       "Type": "Tree",
-      "X": 17,
-      "Y": 2
+      "X": 16,
+      "Y": 3
     },
     {
       "Type": "Tree",
-      "X": 17,
+      "X": 16,
+      "Y": 6
+    },
+    {
+      "Type": "Enemy",
+      "X": 16,
+      "Y": 8
+    },
+    {
+      "Type": "Tree",
+      "X": 16,
+      "Y": 13
+    },
+    {
+      "Type": "Enemy",
+      "X": 16,
+      "Y": 20
+    },
+    {
+      "Type": "Tree",
+      "X": 16,
       "Y": 23
     },
     {
       "Type": "Tree",
-      "X": 18,
-      "Y": 14
+      "X": 17,
+      "Y": 0
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 17,
+      "Y": 2
+    },
+    {
+      "Type": "Enemy",
+      "X": 17,
+      "Y": 3
+    },
+    {
+      "Type": "Enemy",
+      "X": 17,
+      "Y": 4
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 17,
+      "Y": 6
+    },
+    {
+      "Type": "Tree",
+      "X": 17,
+      "Y": 7
+    },
+    {
+      "Type": "Enemy",
+      "X": 17,
+      "Y": 13
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 17,
+      "Y": 20
     },
     {
       "Type": "Tree",
       "X": 18,
-      "Y": 16
+      "Y": 7
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 18,
+      "Y": 9
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 18,
+      "Y": 10
     },
     {
       "Type": "Tree",
@@ -364,44 +509,54 @@
       "Y": 20
     },
     {
-      "Type": "HealthPoint",
+      "Type": "Tree",
       "X": 18,
-      "Y": 22
-    },
-    {
-      "Type": "Tree",
-      "X": 19,
-      "Y": 9
-    },
-    {
-      "Type": "HealthPoint",
-      "X": 19,
-      "Y": 14
-    },
-    {
-      "Type": "Tree",
-      "X": 19,
-      "Y": 17
-    },
-    {
-      "Type": "Enemy",
-      "X": 19,
       "Y": 23
     },
     {
       "Type": "Tree",
-      "X": 20,
-      "Y": 21
+      "X": 19,
+      "Y": 1
+    },
+    {
+      "Type": "Tree",
+      "X": 19,
+      "Y": 5
+    },
+    {
+      "Type": "Tree",
+      "X": 19,
+      "Y": 10
+    },
+    {
+      "Type": "Enemy",
+      "X": 19,
+      "Y": 17
     },
     {
       "Type": "Tree",
       "X": 20,
-      "Y": 24
+      "Y": 5
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 20,
+      "Y": 6
     },
     {
       "Type": "Tree",
-      "X": 21,
-      "Y": 2
+      "X": 20,
+      "Y": 18
+    },
+    {
+      "Type": "Tree",
+      "X": 20,
+      "Y": 22
+    },
+    {
+      "Type": "Tree",
+      "X": 20,
+      "Y": 23
     },
     {
       "Type": "Tree",
@@ -409,64 +564,84 @@
       "Y": 8
     },
     {
+      "Type": "Enemy",
+      "X": 22,
+      "Y": 7
+    },
+    {
       "Type": "Tree",
-      "X": 21,
-      "Y": 11
+      "X": 22,
+      "Y": 9
     },
     {
       "Type": "Enemy",
-      "X": 21,
-      "Y": 17
+      "X": 22,
+      "Y": 14
     },
     {
       "Type": "Tree",
       "X": 22,
-      "Y": 4
-    },
-    {
-      "Type": "Tree",
-      "X": 22,
-      "Y": 5
-    },
-    {
-      "Type": "Tree",
-      "X": 22,
-      "Y": 10
-    },
-    {
-      "Type": "HealthPoint",
-      "X": 22,
-      "Y": 15
-    },
-    {
-      "Type": "Tree",
-      "X": 22,
-      "Y": 21
+      "Y": 23
     },
     {
       "Type": "Tree",
       "X": 23,
-      "Y": 0
+      "Y": 4
+    },
+    {
+      "Type": "Enemy",
+      "X": 23,
+      "Y": 5
+    },
+    {
+      "Type": "Enemy",
+      "X": 23,
+      "Y": 7
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 23,
+      "Y": 10
+    },
+    {
+      "Type": "Enemy",
+      "X": 23,
+      "Y": 11
     },
     {
       "Type": "Tree",
+      "X": 23,
+      "Y": 14
+    },
+    {
+      "Type": "Enemy",
       "X": 23,
       "Y": 22
     },
     {
       "Type": "Tree",
       "X": 24,
-      "Y": 1
-    },
-    {
-      "Type": "Tree",
-      "X": 24,
-      "Y": 5
+      "Y": 0
     },
     {
       "Type": "HealthPoint",
       "X": 24,
-      "Y": 8
+      "Y": 4
+    },
+    {
+      "Type": "Enemy",
+      "X": 24,
+      "Y": 15
+    },
+    {
+      "Type": "Tree",
+      "X": 24,
+      "Y": 21
+    },
+    {
+      "Type": "HealthPoint",
+      "X": 24,
+      "Y": 23
     }
   ]
 }

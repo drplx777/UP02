@@ -31,6 +31,7 @@ namespace ConsoleApp129
 
         /// <summary>
         /// Генерирует новый уровень с учётом параметра level: размещает стены, врагов, объекты и героя.
+        /// На 10 уровне размещает финального босса.
         /// </summary>
         /// <param name="level">Номер уровня для генерации.</param>
         private void GenerateLevel(int level)
@@ -83,7 +84,9 @@ namespace ConsoleApp129
                     }
                 }
             }
-            if (level % 3 == 0)
+
+            // Обычные боссы на уровнях, кратных 3 (как было)
+            if (level % 3 == 0 && level < 10)
             {
                 List<(int x, int y)> free = new List<(int, int)>();
                 for (int i = 0; i < map.GetLength(0); i++)
@@ -97,6 +100,29 @@ namespace ConsoleApp129
                 }
             }
 
+            // Финальный босс на 10 уровне (единственный, основной босс игры)
+            if (level == 10)
+            {
+                List<(int x, int y)> free = new List<(int, int)>();
+                for (int i = 0; i < map.GetLength(0); i++)
+                    for (int j = 0; j < map.GetLength(1); j++)
+                        if (map[i, j] is Field) free.Add((i, j));
+
+                if (free.Count > 0)
+                {
+                    int cx = map.GetLength(0) / 2;
+                    int cy = map.GetLength(1) / 2;
+                    (int x, int y) pick = free[0];
+                    int bestDist = int.MaxValue;
+                    foreach (var f in free)
+                    {
+                        int d = Math.Abs(f.x - cx) + Math.Abs(f.y - cy);
+                        if (d < bestDist) { bestDist = d; pick = f; }
+                    }
+                    map[pick.x, pick.y] = new FinalBoss(pick.x, pick.y);
+                }
+            }
+
             doorExists = false;
             Current = this;
             doorX = doorY = -1;
@@ -105,6 +131,7 @@ namespace ConsoleApp129
         /// <summary>
         /// Отрисовывает карту в консоли, а также выводит информацию о герое и прогрессе.
         /// Если все враги убиты — размещает дверь для перехода на следующий уровень.
+        /// На 10 уровне победа наступает после уничтожения финального босса.
         /// </summary>
         public void Drawing_the_map()
         {
@@ -135,7 +162,7 @@ namespace ConsoleApp129
 
             if (Enemies == 0)
             {
-                if (MapLevel < 9)
+                if (MapLevel < 10)
                 {
                     if (!doorExists)
                     {
@@ -146,15 +173,31 @@ namespace ConsoleApp129
                         Console.ResetColor();
                     }
                 }
-                else
+                else // MapLevel == 10
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Поздравляем! Вы очистили 9-й уровень и победили в игре!");
-                    Console.ResetColor();
-                    Console.WriteLine("Нажмите любую клавишу для выхода...");
-                    Console.ReadKey();
-                    Environment.Exit(0);
+                    // Проверяем, остался ли финальный босс на карте
+                    bool finalBossExists = false;
+                    for (int i = 0; i < map.GetLength(0); i++)
+                        for (int j = 0; j < map.GetLength(1); j++)
+                            if (map[i, j] is FinalBoss) finalBossExists = true;
+
+                    if (!finalBossExists)
+                    {
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Поздравляем! Вы победили Главного Босса и завершили игру!");
+                        Console.ResetColor();
+                        Console.WriteLine("Нажмите любую клавишу для выхода...");
+                        Console.ReadKey();
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine();
+                        Console.WriteLine("Вы достигли логова главного босса! Найдите и победите его, чтобы завершить игру.");
+                        Console.ResetColor();
+                    }
                 }
             }
         }
@@ -241,6 +284,7 @@ namespace ConsoleApp129
         /// <summary>
         /// Обрабатывает движение героя в зависимости от нажатой клавиши: Up/Down/Left/Right.
         /// Обрабатывает взаимодействия с объектами при перемещении (враги, аптечки, казино, магазин, дверь, босс).
+        /// При встрече с финальным боссом вызывает особую боёвку.
         /// </summary>
         /// <param name="key">Клавиша направления движения.</param>
         public void MovePersons(ConsoleKey key)
@@ -290,6 +334,19 @@ namespace ConsoleApp129
                             {
                             }
                         }
+                        else if (newMap[newX, newY] is FinalBoss finalBoss)
+                        {
+                            var kazik = new Kazik();
+                            // особая боевая система для финального босса
+                            kazik.BossFinalFight(hero, finalBoss);
+
+                            // если босс уничтожен и герой жив — перемещаем героя на его место
+                            if (finalBoss.HP <= 0)
+                            {
+                                newMap[newX, newY] = map[i, j];
+                                newMap[i, j] = new Field();
+                            }
+                        }
                         else if (newMap[newX, newY] is HealthPoint)
                         {
                             newMap[newX, newY] = map[i, j];
@@ -318,12 +375,12 @@ namespace ConsoleApp129
                             ((Casino)newMap[newX, newY]).Interaction();
                         }
                         else if(newMap[newX, newY] is Shop)
-                        { 
+                        {
                             ((Shop)newMap[newX, newY]).Interaction();
                         }
                         else if (newMap[newX, newY] is Door)
                         {
-                            if (MapLevel < 9)
+                            if (MapLevel < 10)
                             {
                                 var oldHero = FindHero() as Hero;
                                 int oldHP = oldHero?.HP ?? 100;
@@ -370,6 +427,7 @@ namespace ConsoleApp129
         /// <summary>
         /// Загружает состояние карты из переданных данных (<see cref="GameData"/>).
         /// Восстанавливает объекты и героя.
+        /// Поддерживает загрузку финального босса (FinalBoss).
         /// </summary>
         /// <param name="data">Данные игры для восстановления.</param>
         public void LoadGame(GameData data)
@@ -410,6 +468,9 @@ namespace ConsoleApp129
                         break;
                     case nameof(Boss):
                         map[item.X, item.Y] = new Boss(item.X, item.Y);
+                        break;
+                    case nameof(FinalBoss):
+                        map[item.X, item.Y] = new FinalBoss(item.X, item.Y);
                         break;
                 }
             }

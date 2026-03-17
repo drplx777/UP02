@@ -73,7 +73,7 @@ namespace ConsoleApp129
             {
                 case ConsoleKey.D1:
                     Console.Clear();
-                    kazik.Entry(); 
+                    kazik.Entry();
                     break;
                 case ConsoleKey.Escape:
                     Console.Clear();
@@ -112,5 +112,103 @@ namespace ConsoleApp129
             return '♕';
         }
     }
-    
+
+    /// <summary>
+    /// Финальный (главный) босс игры с уникальной боевой системой и временными эффектами.
+    /// </summary>
+    internal class FinalBoss : Enemy
+    {
+        /// <summary>Список активных эффектов у босса.</summary>
+        public readonly List<Kazikk.FinalBossEffect> ActiveEffects = new List<Kazikk.FinalBossEffect>();
+
+        /// <summary>Создаёт финального босса с увеличенными HP/уроном.</summary>
+        /// <param name="X">Координата X.</param>
+        /// <param name="Y">Координата Y.</param>
+        public FinalBoss(int X, int Y) : base(X, Y)
+        {
+            HP = 350;
+            Damage = 25;
+            // финальный босс умирает при падении HP до 0
+        }
+
+        /// <summary>Возвращает символ финального босса и устанавливает цвет.</summary>
+        public override char Rendering_on_the_map()
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            return '♛';
+        }
+
+        /// <summary>
+        /// Применяет эффект к боссу (добавляет в список активных эффектов).
+        /// </summary>
+        /// <param name="effect">Эффект для применения.</param>
+        public void ApplyEffect(Kazikk.FinalBossEffect effect)
+        {
+            ActiveEffects.Add(effect);
+        }
+
+        /// <summary>
+        /// Выполняет шаг времени для активных эффектов: уменьшает оставшиеся ходы, применяет реген и удаляет просроченные эффекты.
+        /// Должен вызываться в начале или в конце хода босса.
+        /// </summary>
+        public void TickEffects()
+        {
+            for (int i = ActiveEffects.Count - 1; i >= 0; i--)
+            {
+                var e = ActiveEffects[i];
+                // регенерация применяется каждый ход, если есть соответствующий эффект
+                if (e.Type == Kazikk.FinalBossEffectType.Regen)
+                {
+                    this.HP += e.Value;
+                }
+
+                e.TurnsRemaining--;
+                if (e.TurnsRemaining <= 0)
+                {
+                    ActiveEffects.RemoveAt(i);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Вычисляет дополнительный урон босса на основе активных эффектов (например, DamageUp).
+        /// </summary>
+        /// <returns>Дополнительный урон (int) к базовому Damage.</returns>
+        public int GetDamageBonus()
+        {
+            int bonus = 0;
+            foreach (var e in ActiveEffects)
+            {
+                if (e.Type == Kazikk.FinalBossEffectType.DamageUp)
+                    bonus += e.Value;
+            }
+            return bonus;
+        }
+
+        /// <summary>
+        /// Вычисляет процент уменьшения входящего урона от героя (например, щит).
+        /// </summary>
+        /// <returns>Значение в диапазоне 0..100 — процент уменьшения урона.</returns>
+        public int GetIncomingDamageReductionPercent()
+        {
+            int reduce = 0;
+            foreach (var e in ActiveEffects)
+            {
+                if (e.Type == Kazikk.FinalBossEffectType.Shield)
+                    reduce += e.Value; // e.Value содержит проценты
+            }
+            return Math.Min(90, reduce); // ограничение
+        }
+
+        /// <summary>
+        /// Проверяет, есть ли эффект DoubleStrike (что даёт двойную атаку).
+        /// </summary>
+        /// <returns>True, если эффект активен.</returns>
+        public bool HasDoubleStrike()
+        {
+            foreach (var e in ActiveEffects)
+                if (e.Type == Kazikk.FinalBossEffectType.DoubleStrike) return true;
+            return false;
+        }
+    }
 }

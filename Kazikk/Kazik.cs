@@ -1,9 +1,14 @@
 using System;
 using System.Threading;
+using ConsoleApp129;
 
 namespace ConsoleApp129.Kazikk
 {
-    class Kazik
+    /// <summary>
+    /// Основной класс, реализующий интерфейс казино и мини-игры.
+    /// Также содержит реализации боёв с обычным и финальным боссом.
+    /// </summary>
+    internal class Kazik
     {
         /// <summary>Создаёт логический объект казино.</summary>
         public Kazik() { }
@@ -58,7 +63,7 @@ namespace ConsoleApp129.Kazikk
         /// Простая версия игры BlackJack для героя с ставками и результатом изменения баланса.
         /// </summary>
         /// <param name="hero">Экземпляр героя, участвующего в игре.</param>
-        private void BlackJack(Hero hero)
+        public void BlackJack(Hero hero)
         {
             var rnd = new Random();
 
@@ -138,7 +143,7 @@ namespace ConsoleApp129.Kazikk
         /// Простая слот-рулетка: три символа, выигрыш при трёх одинаковых символах.
         /// </summary>
         /// <param name="hero">Экземпляр героя, участвующего в игре.</param>
-        private void Roulette(Hero hero)
+        public void Roulette(Hero hero)
         {
             char[] pics = new char[] { '❤', '♕', '✦', '➆' };
             var rnd = new Random();
@@ -199,7 +204,7 @@ namespace ConsoleApp129.Kazikk
         /// Интерфейс колеса фортуны: снимает 50 монет и применяет эффект выбранного сегмента.
         /// </summary>
         /// <param name="hero">Экземпляр героя.</param>
-        private void WheelOfFortune(Hero hero)
+        public void WheelOfFortune(Hero hero)
         {
             var wheel = new Wheel();
             var rnd = new Random();
@@ -279,9 +284,9 @@ namespace ConsoleApp129.Kazikk
                         Console.WriteLine("Пропуск! Ничего не произошло.");
                         break;
                     case SegmentType.HardMode:
-                        hero.HP -= hero.HP - 1;
+                        hero.HP = 1;
                         Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine("Хардмод!, Ваш HP снижен до 1");
+                        Console.WriteLine("Хардмод! Ваш HP снижен до 1");
                         break;
                 }
 
@@ -291,13 +296,13 @@ namespace ConsoleApp129.Kazikk
                 Console.WriteLine("Нажмите любую клавишу...");
                 Console.ReadKey();
             }
-    }
+        }
 
         /// <summary>
-        /// Поединок с боссом: несколько раундов в стиле 21 (mini-blackjack). При победе — лишняя жизнь босса теряется.
+        /// Поединок с обычным боссом: несколько раундов в стиле 21 (mini-blackjack). При победе — лишняя жизнь босса теряется.
         /// </summary>
         /// <param name="hero">Экземпляр героя.</param>
-        /// <param name="boss">Экземпляр босса.</param>
+        /// <param name="boss">Экземпляр обычного босса.</param>
         public void BossBlackjack(Hero hero, Boss boss)
         {
             var rnd = new Random();
@@ -393,11 +398,142 @@ namespace ConsoleApp129.Kazikk
         }
 
         /// <summary>
+        /// Особая боевая система с финальным боссом.
+        /// Каждый ход босса он крутит своё колесо фортуны и получает временные эффекты (увеличение урона, щит, реген, двойной удар).
+        /// Игрок ходит первым: имеет выбор атаковать или лечиться.
+        /// </summary>
+        /// <param name="hero">Экземпляр героя.</param>
+        /// <param name="bossObj">Экземпляр финального босса (FinalBoss).</param>
+        public void BossFinalFight(Hero hero, FinalBoss bossObj)
+        {
+            var rnd = new Random();
+            var wheel = new FinalBossWheel();
+
+            Console.Clear();
+            Console.WriteLine("!!! ВЫ ВСТУПИЛИ В БОЙ С ГЛАВНЫМ БОССОМ !!!");
+            Console.WriteLine("Уникальная боевая система: каждый ход босс крутит колесо и получает временные улучшения.");
+            Console.WriteLine("Выберите действия мудро. Нажмите любую клавишу чтобы начать...");
+            Console.ReadKey(true);
+
+            while (hero.HP > 0 && bossObj.HP > 0)
+            {
+                // показываем состояние
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Ваш HP: {hero.HP}  | Урон: {hero.Damage}");
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine($"Босс HP: {bossObj.HP}");
+                Console.ResetColor();
+                Console.WriteLine();
+
+                // --- ХОД ГЕРОЯ ---
+                Console.WriteLine("Ваш ход: 1 - атаковать, 2 - лечь (восстановить 25 HP), Escape - отступить");
+                var key = Console.ReadKey(true).Key;
+                if (key == ConsoleKey.Escape)
+                {
+                    Console.WriteLine("Вы отвернулись от боя и вернулись на своё место...");
+                    Thread.Sleep(1000);
+                    break;
+                }
+                else if (key == ConsoleKey.D2)
+                {
+                    hero.HP += 25;
+                    Console.WriteLine("Вы восстановили 25 HP.");
+                }
+                else // атака по умолчанию
+                {
+                    int heroDamage = hero.Damage;
+                    // учитываем щит босса (уменьшает входящий урон в процентах)
+                    int reduction = bossObj.GetIncomingDamageReductionPercent();
+                    int damageAfterReduction = heroDamage - (heroDamage * reduction / 100);
+                    damageAfterReduction = Math.Max(0, damageAfterReduction);
+                    bossObj.HP -= damageAfterReduction;
+                    Console.WriteLine($"Вы нанесли {damageAfterReduction} урона (щиты и эффекты учтены).");
+                }
+
+                // проверяем, убит ли босс
+                if (bossObj.HP <= 0)
+                {
+                    Console.WriteLine("Босс повержен!");
+                    Console.WriteLine("Нажмите любую клавишу...");
+                    Console.ReadKey(true);
+                    break;
+                }
+
+                // --- ХОД БОССА ---
+                Console.WriteLine("\nХод босса: он крутит колесо фортуны...");
+                Thread.Sleep(900);
+                var seg = wheel.Spin(rnd);
+                bossObj.ApplyEffect(seg);
+
+                // отображаем эффект
+                switch (seg.Type)
+                {
+                    case FinalBossEffectType.DamageUp:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Босс усилился! +{seg.Value} к урону на {seg.TurnsRemaining} ход(а/ов).");
+                        Console.ResetColor();
+                        break;
+                    case FinalBossEffectType.Shield:
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"Босс поднял щит! -{seg.Value}% к входящему урону на {seg.TurnsRemaining} ход(а/ов).");
+                        Console.ResetColor();
+                        break;
+                    case FinalBossEffectType.Regen:
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Босс начинает регенерировать по {seg.Value} HP в течение {seg.TurnsRemaining} ход(а/ов).");
+                        Console.ResetColor();
+                        break;
+                    case FinalBossEffectType.DoubleStrike:
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.WriteLine("Босс подготовил двойной удар в этом ходу!");
+                        Console.ResetColor();
+                        break;
+                    case FinalBossEffectType.Nothing:
+                        Console.WriteLine("Колесо ничего не дало...");
+                        break;
+                }
+
+                // применяем эффекты (например реген)
+                bossObj.TickEffects();
+
+                // босс наносит урон (учитываем бонусы урона)
+                int totalDamage = bossObj.Damage + bossObj.GetDamageBonus();
+                int attacks = bossObj.HasDoubleStrike() ? 2 : 1;
+                for (int a = 0; a < attacks; a++)
+                {
+                    hero.HP -= totalDamage;
+                    Console.WriteLine($"Босс атакует и наносит {totalDamage} урона.");
+                    if (hero.HP <= 0) break;
+                    Thread.Sleep(300);
+                }
+
+                if (hero.HP <= 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Вы погибли в бою с Главным Боссом...");
+                    Console.ResetColor();
+                    Console.WriteLine("Нажмите любую клавишу.");
+                    Console.ReadKey(true);
+                    Environment.Exit(0);
+                }
+
+                // уменьшаем таймеры эффектов на конце хода (ещё один Tick — чтобы эффекты корректно считались)
+                bossObj.TickEffects();
+
+                Console.WriteLine("\nНажмите любую клавишу, чтобы продолжить следующий раунд...");
+                Console.ReadKey(true);
+            }
+
+            Console.Clear();
+        }
+
+        /// <summary>
         /// Просит пользователя ввести ставку для азартных игр. Валидация входа и проверка баланса.
         /// </summary>
         /// <param name="hero">Экземпляр героя, у которого запрашивается ставка.</param>
         /// <returns>Сумма ставки (положительное целое) или 0 — если отмена.</returns>
-        private int AskBet(Hero hero)
+        public int AskBet(Hero hero)
         {
             while (true)
             {
