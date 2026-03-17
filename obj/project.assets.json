@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/ConsoleApp129.csproj",
+      "projectUniqueName": "/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/praktika/UP02/ConsoleApp129.csproj",
       "projectName": "ConsoleApp129",
-      "projectPath": "/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/ConsoleApp129.csproj",
+      "projectPath": "/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/praktika/UP02/ConsoleApp129.csproj",
       "packagesPath": "/Users/lienni/.nuget/packages/",
-      "outputPath": "/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/ПП для практики 2/ConsoleApp129/obj/",
+      "outputPath": "/Users/lienni/Desktop/drplx/ккасицт исик/УП Леликов/praktika/UP02/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/lienni/.nuget/NuGet/NuGet.Config"
