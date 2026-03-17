@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConsoleApp129.Save;
-using ConsoleApp129.Maps;
 using System.Threading;
 using ConsoleApp129.Kazikk;
 
@@ -9,7 +8,12 @@ namespace ConsoleApp129
 {
     internal class Map
     {
+        /// <summary>
+        /// Текущий экземпляр карты (используется магазинами/казино для доступа к герою).
+        /// </summary>
         public static Map Current { get; private set; }
+
+        /// <summary>Текущий уровень мира.</summary>
         public int MapLevel = 1;
         Random rand = new Random();
         MapObject[,] map = new MapObject[25, 25];
@@ -17,11 +21,18 @@ namespace ConsoleApp129
         private int doorX = -1;
         private int doorY = -1;
 
+        /// <summary>
+        /// Генерирует карту в соответствии с текущим уровнем (обёртка для GenerateLevel).
+        /// </summary>
         public void Map_generation()
         {
             GenerateLevel(MapLevel);
         }
 
+        /// <summary>
+        /// Генерирует новый уровень с учётом параметра level: размещает стены, врагов, объекты и героя.
+        /// </summary>
+        /// <param name="level">Номер уровня для генерации.</param>
         private void GenerateLevel(int level)
         {
             int width = map.GetLength(0);
@@ -91,6 +102,10 @@ namespace ConsoleApp129
             doorX = doorY = -1;
         }
 
+        /// <summary>
+        /// Отрисовывает карту в консоли, а также выводит информацию о герое и прогрессе.
+        /// Если все враги убиты — размещает дверь для перехода на следующий уровень.
+        /// </summary>
         public void Drawing_the_map()
         {
             for (int i = 0; i < map.GetLength(0); i++)
@@ -144,6 +159,9 @@ namespace ConsoleApp129
             }
         }
 
+        /// <summary>
+        /// Находит свободное поле и размещает дверь для перехода на следующий уровень.
+        /// </summary>
         private void PlaceDoorOnRandomField()
         {
             List<(int x, int y)> free = new List<(int, int)>();
@@ -162,6 +180,10 @@ namespace ConsoleApp129
             doorExists = true;
         }
 
+        /// <summary>
+        /// Ищет и возвращает экземпляр героя на карте.
+        /// </summary>
+        /// <returns>Экземпляр <see cref="Hero"/> или null, если герой не найден.</returns>
         public Hero FindHero()
         {
             for (int i = 0; i < map.GetLength(0); i++)
@@ -170,6 +192,10 @@ namespace ConsoleApp129
             return null;
         }
 
+        /// <summary>
+        /// Двигает всех неигровых персонажей (врагов) случайным образом.
+        /// Враги перемещаются только по полям (Field).
+        /// </summary>
         public void MovePersons()
         {
             MapObject[,] newMap = new MapObject[map.GetLength(0), map.GetLength(1)];
@@ -212,6 +238,11 @@ namespace ConsoleApp129
             Array.Copy(newMap, map, map.Length);
         }
 
+        /// <summary>
+        /// Обрабатывает движение героя в зависимости от нажатой клавиши: Up/Down/Left/Right.
+        /// Обрабатывает взаимодействия с объектами при перемещении (враги, аптечки, казино, магазин, дверь, босс).
+        /// </summary>
+        /// <param name="key">Клавиша направления движения.</param>
         public void MovePersons(ConsoleKey key)
         {
             MapObject[,] newMap = new MapObject[map.GetLength(0), map.GetLength(1)];
@@ -336,6 +367,11 @@ namespace ConsoleApp129
             Array.Copy(newMap, map, map.Length);
         }
 
+        /// <summary>
+        /// Загружает состояние карты из переданных данных (<see cref="GameData"/>).
+        /// Восстанавливает объекты и героя.
+        /// </summary>
+        /// <param name="data">Данные игры для восстановления.</param>
         public void LoadGame(GameData data)
         {
             map = new MapObject[data.Width, data.Height];
@@ -389,6 +425,10 @@ namespace ConsoleApp129
             MapLevel = data.MapLevel <= 0 ? 1 : data.MapLevel;
         }
 
+        /// <summary>
+        /// Собирает текущее состояние карты в объект <see cref="GameData"/>.
+        /// </summary>
+        /// <returns>Объект <see cref="GameData"/>, содержащий текущую карту, позицию героя и объекты.</returns>
         public GameData GetGameData()
         {
             GameData data = new GameData
@@ -425,6 +465,10 @@ namespace ConsoleApp129
             return data;
         }
 
+        /// <summary>
+        /// Подсчитывает количество врагов на карте.
+        /// </summary>
+        /// <returns>Количество объектов типа <see cref="Enemy"/> на карте.</returns>
         public int CountEnemies()
         {
             int Count = 0;

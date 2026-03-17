@@ -15,14 +15,18 @@ namespace ConsoleApp129.Kazikk
 
     class WheelSegment
     {
+        /// <summary>Тип сегмента колеса фортуны.</summary>
         public SegmentType Type { get; set; }
+        /// <summary>Значение (например, количество HP или урона).</summary>
         public int Value { get; set; }
     }
 
     class Wheel
     {
+        /// <summary>Список сегментов колеса.</summary>
         public readonly List<WheelSegment> _segments;
 
+        /// <summary>Создаёт стандартное колесо фортуны с набором сегментов.</summary>
         public Wheel()
         {
             _segments = new List<WheelSegment>()
@@ -42,6 +46,11 @@ namespace ConsoleApp129.Kazikk
             };
         }
 
+        /// <summary>
+        /// Крутит колесо и возвращает один случайный сегмент.
+        /// </summary>
+        /// <param name="random">Экземпляр <see cref="Random"/> для получения случайности.</param>
+        /// <returns>Выбранный сегмент <see cref="WheelSegment"/>.</returns>
         public WheelSegment Spin(Random random)
         {
             int index = random.Next(_segments.Count);

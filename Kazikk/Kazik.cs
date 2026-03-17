@@ -5,8 +5,12 @@ namespace ConsoleApp129.Kazikk
 {
     class Kazik
     {
+        /// <summary>Создаёт логический объект казино.</summary>
         public Kazik() { }
 
+        /// <summary>
+        /// Точка входа в интерфейс казино: выбор игр (BlackJack, Рулетка, Колесо фортуны).
+        /// </summary>
         public void Entry()
         {
             var hero = Map.Current?.FindHero();
@@ -50,6 +54,10 @@ namespace ConsoleApp129.Kazikk
             }
         }
 
+        /// <summary>
+        /// Простая версия игры BlackJack для героя с ставками и результатом изменения баланса.
+        /// </summary>
+        /// <param name="hero">Экземпляр героя, участвующего в игре.</param>
         private void BlackJack(Hero hero)
         {
             var rnd = new Random();
@@ -126,6 +134,10 @@ namespace ConsoleApp129.Kazikk
             Console.Clear();
         }
 
+        /// <summary>
+        /// Простая слот-рулетка: три символа, выигрыш при трёх одинаковых символах.
+        /// </summary>
+        /// <param name="hero">Экземпляр героя, участвующего в игре.</param>
         private void Roulette(Hero hero)
         {
             char[] pics = new char[] { '❤', '♕', '✦', '➆' };
@@ -183,6 +195,10 @@ namespace ConsoleApp129.Kazikk
             Console.Clear();
         }
 
+        /// <summary>
+        /// Интерфейс колеса фортуны: снимает 50 монет и применяет эффект выбранного сегмента.
+        /// </summary>
+        /// <param name="hero">Экземпляр героя.</param>
         private void WheelOfFortune(Hero hero)
         {
             var wheel = new Wheel();
@@ -276,6 +292,12 @@ namespace ConsoleApp129.Kazikk
                 Console.ReadKey();
             }
     }
+
+        /// <summary>
+        /// Поединок с боссом: несколько раундов в стиле 21 (mini-blackjack). При победе — лишняя жизнь босса теряется.
+        /// </summary>
+        /// <param name="hero">Экземпляр героя.</param>
+        /// <param name="boss">Экземпляр босса.</param>
         public void BossBlackjack(Hero hero, Boss boss)
         {
             var rnd = new Random();
@@ -370,6 +392,11 @@ namespace ConsoleApp129.Kazikk
             Console.Clear();
         }
 
+        /// <summary>
+        /// Просит пользователя ввести ставку для азартных игр. Валидация входа и проверка баланса.
+        /// </summary>
+        /// <param name="hero">Экземпляр героя, у которого запрашивается ставка.</param>
+        /// <returns>Сумма ставки (положительное целое) или 0 — если отмена.</returns>
         private int AskBet(Hero hero)
         {
             while (true)

@@ -1,14 +1,22 @@
 using System;
-using ConsoleApp129.Maps;
 namespace ConsoleApp129
 {
     internal class Shop : MapObject
     {
+        /// <summary>
+        /// Возвращает символ магазина для отображения на карте.
+        /// </summary>
+        /// <returns>Символ, представляющий магазин.</returns>
         public override char Rendering_on_the_map()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             return '$';
         }
+
+        /// <summary>
+        /// Открывает меню магазина и обрабатывает покупки игрока.
+        /// Ищет текущую карту и героя; если герой не найден — выводит ошибку.
+        /// </summary>
         public void Interaction()
         {
 
@@ -85,6 +93,12 @@ namespace ConsoleApp129
             Console.Clear();
         }
 
+        /// <summary>
+        /// Пытается выполнить покупку: проверяет баланс, снимает цену и вызывает действие покупки.
+        /// </summary>
+        /// <param name="hero">Экземпляр героя, совершающего покупку.</param>
+        /// <param name="price">Стоимость покупки в монетах.</param>
+        /// <param name="onBuy">Делегат, выполняющий действие при успешной покупке.</param>
         private void TryBuy(Hero hero, int price, Action onBuy)
         {
             if (hero.Balance < price)

@@ -9,6 +9,12 @@ namespace ConsoleApp129.Save
     {
         private const string path = "save.json";
 
+        /// <summary>
+        /// Сериализует и сохраняет данные игры в файл.
+        /// В случае ошибок чтения/записи выбрасывает <see cref="SaveException"/>.
+        /// </summary>
+        /// <param name="data">Объект <see cref="GameData"/> для сохранения.</param>
+        /// <exception cref="SaveException">Возникает при ошибках доступа к файлу или сериализации.</exception>
         public static void Save(GameData data)
         {
             try
@@ -34,6 +40,12 @@ namespace ConsoleApp129.Save
             }
         }
 
+        /// <summary>
+        /// Загружает данные игры из файла и десериализует их в объект <see cref="GameData"/>.
+        /// Возвращает null если файл не найден.
+        /// </summary>
+        /// <returns>Десериализованный <see cref="GameData"/> или null, если сохранение отсутствует.</returns>
+        /// <exception cref="LoadException">Бросается при ошибках чтения или неверном формате JSON.</exception>
         public static GameData Load()
         {
             try

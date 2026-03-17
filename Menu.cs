@@ -4,10 +4,18 @@ namespace ConsoleApp129
 {
     class Menu
     {
+        /// <summary>
+        /// Показать подсказку взаимодействия.
+        /// </summary>
         public void InteractionMenu()
         {
             Console.WriteLine("Нажмите Е для взаимодействия");
         }
+
+        /// <summary>
+        /// Отображает главное меню и обрабатывает вход пользователя.
+        /// Блокирует выполнение до выбора "Начать игру" или выхода.
+        /// </summary>
         public void MainMenu()
         {
             int a = 0;
